@@ -11,6 +11,7 @@ import com.adera.entities.EstablishmentEntity;
 import com.adera.entities.MachineEntity;
 import com.adera.entities.MetricEntity;
 import com.adera.enums.ComponentTypeEnum;
+import com.adera.enums.MetricUnitEnum;
 import com.adera.extensions.MySQLExtension;
 import com.adera.mappers.ComponentMapper;
 import com.adera.mappers.EstablishmentMapper;
@@ -44,25 +45,18 @@ public class Monitoring {
         monitor.machine = monitor.buildMachine(establishment.getId());
         monitor.establishment = EstablishmentMapper.toEstablishment(establishment);
 
-        MachineEntity isNewMachine = monitor.checkIfNewMachine();
-        if(isNewMachine != null) {
+        Boolean isNewMachine = monitor.checkIfNewMachine();
+        if(!isNewMachine) {
             ComponentRepository repository = new ComponentRepository(new HashMap<>());
-            ComponentDatabase database = new ComponentDatabase(ConnectionMySQL.getConnection());
+            ComponentDatabase database = new ComponentDatabase();
 
-            monitor.machine = MachineMapper.toMachine(isNewMachine, null);
             try {
                 var entityList = database.getComponentsByMachineId(monitor.machine.getId());
 
                 var componentList = new ArrayList<Component>();
 
                 for(var entity : entityList) {
-                    String unit = "";
-                    if(entity.getType() == ComponentTypeEnum.CPU) {
-                        unit = "porcentagem";
-                    } else {
-                        unit = "byte";
-                    }
-                    componentList.add(ComponentMapper.toComponent(entity, unit));
+                    componentList.add(ComponentMapper.toComponent(entity));
                 }
 
                 monitor.machine.setComponents(componentList);
@@ -172,14 +166,14 @@ public class Monitoring {
                 cpuDescription,
                 cpu.getNumeroCpusLogicas().doubleValue(),
                 ComponentTypeEnum.CPU,
-                "%"
+                MetricUnitEnum.PORCENTAGEM
         );
         components.add(cpuComponent);
 
         Memoria mem = new Memoria();
         Component memoryComponent = new Component();
         memoryComponent.setType(ComponentTypeEnum.MEMORY);
-        memoryComponent.setMetricUnit("byte");
+        memoryComponent.setMetricUnit(MetricUnitEnum.BYTE);
         memoryComponent.setModel(Conversor.formatarBytes(mem.getTotal()));
         memoryComponent.setCapacity(mem.getTotal().doubleValue());
         memoryComponent.setDescription(Conversor.formatarBytes(mem.getTotal()));
@@ -189,7 +183,7 @@ public class Monitoring {
         for (Disco disk : disks.getDiscos()) {
             Component diskComponent = new Component();
             diskComponent.setType(ComponentTypeEnum.DISK);
-            diskComponent.setMetricUnit("byte");
+            diskComponent.setMetricUnit(MetricUnitEnum.BYTE);
             diskComponent.setModel(disk.getModelo());
             diskComponent.setCapacity(disk.getTamanho().doubleValue());
             diskComponent.setDescription(Conversor.formatarBytes(disk.getTamanho()));
@@ -200,13 +194,23 @@ public class Monitoring {
         return machine;
     }
 
-    private MachineEntity checkIfNewMachine() {
+    private Boolean checkIfNewMachine() {
         try {
-            MachineEntity existing = new MachineDatabase().getMachineByMacAddress(this.machine.getMacAddress());
-            return existing;
+            var entity = new MachineDatabase().getMachineByMacAddress(this.machine.getMacAddress());
+            if(entity != null) {
+
+                ArrayList<Component> newComponentsList = new ArrayList<Component>();
+                var componentsList = ComponentDatabase.getComponentsByMachineId(entity.getId());
+                for (ComponentEntity component : componentsList){
+                    newComponentsList.add(ComponentMapper.toComponent(component));
+                }
+
+                this.machine = MachineMapper.toMachine(entity, newComponentsList);
+            }
+            return true;
         } catch(SQLException e) {
             MySQLExtension.handleException(e);
-            return null;
+            return false;
         }
     }
 
