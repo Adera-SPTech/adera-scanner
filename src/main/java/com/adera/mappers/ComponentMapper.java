@@ -2,6 +2,7 @@ package com.adera.mappers;
 
 import com.adera.commonTypes.Component;
 import com.adera.entities.ComponentEntity;
+import com.adera.enums.MetricUnitEnum;
 
 import java.util.UUID;
 
@@ -13,18 +14,19 @@ public abstract class ComponentMapper {
                 self.getDescription(),
                 self.getCapacity(),
                 establishmentId,
-                self.getType()
+                self.getType(),
+                self.getMetricUnit()
         );
     }
 
-    public static Component toComponent(ComponentEntity self, String metricUnit) {
+    public static Component toComponent(ComponentEntity self) {
         return new Component(
                 self.getId(),
                 self.getModel(),
                 self.getDescription(),
                 self.getCapacity(),
                 self.getType(),
-                metricUnit
+                self.getMetricUnit()
         );
     }
 }
