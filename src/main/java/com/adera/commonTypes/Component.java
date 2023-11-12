@@ -1,6 +1,7 @@
 package com.adera.commonTypes;
 
 import com.adera.enums.ComponentTypeEnum;
+import com.adera.enums.MetricUnitEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class Component {
 
     private ComponentTypeEnum type;
 
-    private String metricUnit;
+    private MetricUnitEnum metricUnit;
 
     @Override
     public String toString() {

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ConnectionMySQL {
     private static final String url = "jdbc:mysql://localhost:3306/adera";
     private static final String user = "root";
-    private static final String password = "17931793";
+    private static final String password = "1234";
 
     private static Connection conn;
 

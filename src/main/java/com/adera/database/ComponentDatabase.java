@@ -2,6 +2,7 @@ package com.adera.database;
 
 import com.adera.entities.ComponentEntity;
 import com.adera.enums.ComponentTypeEnum;
+import com.adera.enums.MetricUnitEnum;
 import com.adera.extensions.MySQLExtension;
 
 import java.sql.*;
@@ -9,14 +10,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ComponentDatabase {
-    private final Connection conn ;
+    private static final Connection conn = ConnectionMySQL.getConnection();
 
-    public ComponentDatabase(Connection conn) {
-        this.conn = conn;
-    }
-
-    public ArrayList<ComponentEntity> getComponentsByMachineId(UUID idMachine) throws SQLException{
-        String query = "SELECT * FROM maquinacomponente join tipocomponente on maquinacomponente.fktipocomponente = tipocomponente.id join unidademedida on tipocomponente.fkunidademedida = unidademedida.id where maquinacomponente.fkMaquina = ?";
+    public static ArrayList<ComponentEntity> getComponentsByMachineId(UUID idMachine) throws SQLException{
+        String query = "SELECT maquinacomponente.id,\n" +
+                "maquinacomponente.modelo,\n" +
+                "maquinacomponente.descricao,\n" +
+                "maquinacomponente.capacidade,\n" +
+                "maquinacomponente.fkmaquina,\n" +
+                "tipocomponente.nome as tipocomponente,\n" +
+                "unidademedida.nome as unidadedemedida\n" +
+                " FROM maquinacomponente join tipocomponente on maquinacomponente.fktipocomponente = tipocomponente.id join unidademedida on tipocomponente.fkunidademedida = unidademedida.id where maquinacomponente.fkMaquina = ?";
         PreparedStatement statement = conn.prepareStatement(query);
 
         try {
@@ -34,7 +38,8 @@ public class ComponentDatabase {
                         result.getString(3),
                         result.getDouble(4),
                         UUID.fromString(result.getString(5)),
-                        ComponentTypeEnum.valueOf(result.getString("tipocomponente.nome"))
+                        ComponentTypeEnum.valueOf(result.getString(6)),
+                        MetricUnitEnum.fromName(result.getString(7))
                 );
                 list.add(component);
             }
@@ -46,35 +51,6 @@ public class ComponentDatabase {
         }
 
     }
-    public ArrayList<ComponentEntity> getComponentByMachineId(UUID machineId) throws SQLException {
-        String query = "SELECT * FROM maquinacomponente WHERE fkMaquina = ?";
-        PreparedStatement statement = this.conn.prepareStatement(query);
-
-        try {
-            statement.execute();
-
-            ResultSet result = statement.getResultSet();
-
-            ArrayList<ComponentEntity> list = new ArrayList<>();
-            while(result.next()) {
-                ComponentEntity component = new ComponentEntity(
-                        UUID.fromString(result.getString(1)),
-                        result.getString(2),
-                        result.getString(3),
-                        result.getDouble(4),
-                        UUID.fromString(result.getString(5)),
-                        ComponentTypeEnum.valueOf(result.getString(5))
-                );
-                list.add(component);
-            }
-
-            return list;
-        } catch(SQLException e) {
-            MySQLExtension.handleException(e);
-            return null;
-        }
-    }
-
     public void insertOne(ComponentEntity component) throws SQLException {
         String query = "INSERT INTO maquinacomponente VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = this.conn.prepareStatement(query);

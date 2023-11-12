@@ -50,7 +50,7 @@ public class ComponentRepository implements IUnitOfWork<ComponentEntity>{
     }
 
     private void commitInserted() {
-        ComponentDatabase database = new ComponentDatabase(ConnectionMySQL.getConnection());
+        ComponentDatabase database = new ComponentDatabase();
 
         ArrayList<ComponentEntity> componentsToBeInserted = this.context.get("INSERT");
         for(ComponentEntity component : componentsToBeInserted) {
