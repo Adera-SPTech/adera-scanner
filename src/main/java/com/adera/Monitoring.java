@@ -22,6 +22,7 @@ import com.adera.repositories.MetricRepository;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
+import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
@@ -100,6 +101,8 @@ public class Monitoring {
                         repository.registerNew(getCpuMetric(component.getId()));
                     }else if(component.getType() == ComponentTypeEnum.MEMORY) {
                         repository.registerNew(getMemoryMetric(component.getId()));
+                    } else if (component.getType() == ComponentTypeEnum.DISK) {
+                        repository.registerNew(getDiskMetric(component.getId(), _looca.getGrupoDeDiscos().getVolumes()));
                     }
                 }
 
@@ -131,16 +134,23 @@ public class Monitoring {
         );
     }
 
-    private MetricEntity getDiskMetric(UUID componentId, Disco disk) {
-        var qtdDados = disk.getBytesDeEscritas() + disk.getBytesDeLeitura();
-        var taxa = qtdDados / disk.getTempoDeTransferencia();
+    private MetricEntity getDiskMetric(UUID componentId, List<Volume> disk) {
+        Long total = disk.stream().mapToLong(Volume::getTotal).sum();
+        Long available = disk.stream().mapToLong(Volume::getDisponivel).sum();
+
+        Long inUse = total - available;
+        Double percentageUsing = (inUse.doubleValue()/total)*100;
 
         return new MetricEntity(
                 UUID.randomUUID(),
                 new java.sql.Date(new java.util.Date(System.currentTimeMillis()).getTime()),
-                Conversor.formatarBytes(taxa),
+                String.format("%.0f%%", percentageUsing),
                 componentId
         );
+    }
+
+    private MetricEntity getLatencyMetric(UUID componentId) {
+
     }
 
     private Machine buildMachine(UUID establishmentId) {
