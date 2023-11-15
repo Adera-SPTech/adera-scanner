@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter @Setter
@@ -13,7 +14,7 @@ public class MetricEntity {
 
     public UUID id;
 
-    public Date date;
+    public LocalDateTime date;
 
     public String measurement;
 

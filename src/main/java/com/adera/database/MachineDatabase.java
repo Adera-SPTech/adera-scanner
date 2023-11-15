@@ -22,7 +22,6 @@ public class MachineDatabase {
             statement.execute();
             ResultSet result = statement.getResultSet();
 
-
             if(result.next()) {
                 return new MachineEntity(
                         UUID.fromString(result.getString(1)),

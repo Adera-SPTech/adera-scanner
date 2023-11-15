@@ -25,12 +25,20 @@ import com.github.britooo.looca.api.group.discos.DiscoGrupo;
 import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
+import com.github.britooo.looca.api.group.rede.Rede;
+import com.github.britooo.looca.api.group.rede.RedeInterface;
+import com.github.britooo.looca.api.group.rede.RedeInterfaceGroup;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.util.Conversor;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.SneakyThrows;
 
+import javax.crypto.Mac;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Monitoring {
@@ -103,6 +111,8 @@ public class Monitoring {
                         repository.registerNew(getMemoryMetric(component.getId()));
                     } else if (component.getType() == ComponentTypeEnum.DISK) {
                         repository.registerNew(getDiskMetric(component.getId(), _looca.getGrupoDeDiscos().getVolumes()));
+                    } else if (component.getType() == ComponentTypeEnum.NETWORK) {
+                        repository.registerNew(getLatencyMetric(component.getId()));
                     }
                 }
 
@@ -119,7 +129,7 @@ public class Monitoring {
     private MetricEntity getCpuMetric(UUID componentId) {
         return new MetricEntity(
                 UUID.randomUUID(),
-                new java.sql.Date(new java.util.Date(System.currentTimeMillis()).getTime()),
+                LocalDateTime.now(),
                 Double.toString(this._looca.getProcessador().getUso()),
                 componentId
         );
@@ -128,7 +138,7 @@ public class Monitoring {
     private MetricEntity getMemoryMetric(UUID componentId) {
         return new MetricEntity(
                 UUID.randomUUID(),
-                new java.sql.Date(new java.util.Date(System.currentTimeMillis()).getTime()),
+                LocalDateTime.now(),
                 Conversor.formatarBytes(this._looca.getMemoria().getEmUso()),
                 componentId
         );
@@ -143,14 +153,34 @@ public class Monitoring {
 
         return new MetricEntity(
                 UUID.randomUUID(),
-                new java.sql.Date(new java.util.Date(System.currentTimeMillis()).getTime()),
+                LocalDateTime.now(),
                 String.format("%.0f%%", percentageUsing),
                 componentId
         );
     }
 
-    private MetricEntity getLatencyMetric(UUID componentId) {
+    private MetricEntity getLatencyMetric(UUID componentId){
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
 
+            long startTime = System.currentTimeMillis();
+            if (address.isReachable(1000)) {
+                long endTime = System.currentTimeMillis();
+                long latency = endTime - startTime;
+
+                return new MetricEntity(
+                        UUID.randomUUID(),
+                        LocalDateTime.now(),
+                        String.format("%d", latency),
+                        componentId
+                );
+            }
+        }catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return null;
+        }
+        return null;
     }
 
     private Machine buildMachine(UUID establishmentId) {
@@ -200,6 +230,17 @@ public class Monitoring {
             components.add(diskComponent);
         }
 
+        RedeInterfaceGroup networks = this._looca.getRede().getGrupoDeInterfaces();
+        for (RedeInterface network : networks.getInterfaces()){
+            Component networkComponent = new Component();
+            networkComponent.setType(ComponentTypeEnum.NETWORK);
+            networkComponent.setMetricUnit(MetricUnitEnum.MILISEGUNDOS);
+            networkComponent.setModel(network.getNome());
+            networkComponent.setCapacity(0.0);
+            networkComponent.setDescription(network.getNomeExibicao());
+            components.add(networkComponent);
+        }
+
         machine.setComponents(components);
         return machine;
     }
@@ -207,25 +248,29 @@ public class Monitoring {
     private Boolean checkIfNewMachine() {
         try {
             var entity = new MachineDatabase().getMachineByMacAddress(this.machine.getMacAddress());
+
             if(entity != null) {
+            var componentEntities = ComponentDatabase.getComponentsByMachineId(entity.getId());
+            var components = componentEntities.stream().map(ComponentMapper::toComponent).toList();
+                if (MachineMapper.toMachine(entity, new ArrayList<Component>(components)).equals(this.machine)) {
 
-                ArrayList<Component> newComponentsList = new ArrayList<Component>();
-                var componentsList = ComponentDatabase.getComponentsByMachineId(entity.getId());
-                for (ComponentEntity component : componentsList){
-                    newComponentsList.add(ComponentMapper.toComponent(component));
+                    ArrayList<Component> newComponentsList = new ArrayList<Component>();
+                    var componentsList = ComponentDatabase.getComponentsByMachineId(entity.getId());
+                    for (ComponentEntity component : componentsList) {
+                        newComponentsList.add(ComponentMapper.toComponent(component));
+                    }
+
+                    this.machine = MachineMapper.toMachine(entity, newComponentsList);
+
+                    return false;
+                } else {
+                    return true;
                 }
-
-                this.machine = MachineMapper.toMachine(entity, newComponentsList);
             }
             return true;
         } catch(SQLException e) {
             MySQLExtension.handleException(e);
             return false;
         }
-    }
-
-    @SneakyThrows
-    private ArrayList<ComponentEntity> findMachineComponents() {
-        throw new ExecutionControl.NotImplementedException("");
     }
 }
