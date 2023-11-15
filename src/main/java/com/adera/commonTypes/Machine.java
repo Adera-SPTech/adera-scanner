@@ -1,14 +1,20 @@
 package com.adera.commonTypes;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
+@Getter
+@Setter
 public class Machine {
     private UUID id;
+
+    private String machineName;
 
     private String macAddress;
 
@@ -27,19 +33,6 @@ public class Machine {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Machine machine = (Machine) o;
-        return Objects.equals(id, machine.id) && Objects.equals(macAddress, machine.macAddress) && Objects.equals(os, machine.os) && Objects.equals(vendor, machine.vendor) && Objects.equals(architecture, machine.architecture) && Objects.equals(components, machine.components);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, macAddress, os, vendor, architecture, components);
-    }
-
-    @Override
     public String toString() {
         return String.format("""
                 Machine {
@@ -53,59 +46,16 @@ public class Machine {
                 }""", id == null ? "null" : id.toString(), macAddress, os, vendor, architecture, components, establishmentId.toString());
     }
 
-    public UUID getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Machine machine = (Machine) o;
+        return Objects.equals(machineName, machine.machineName) && Objects.equals(macAddress, machine.macAddress) && Objects.equals(os, machine.os) && Objects.equals(vendor, machine.vendor) && Objects.equals(architecture, machine.architecture) && Objects.equals(components, machine.components) && Objects.equals(establishmentId, machine.establishmentId);
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getMacAddress() {
-        return macAddress;
-    }
-
-    public void setMacAddress(String macAddress) {
-        this.macAddress = macAddress;
-    }
-
-    public String getOs() {
-        return os;
-    }
-
-    public void setOs(String os) {
-        this.os = os;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
-
-    public Integer getArchitecture() {
-        return architecture;
-    }
-
-    public void setArchitecture(Integer architecture) {
-        this.architecture = architecture;
-    }
-
-    public ArrayList<Component> getComponents() {
-        return components;
-    }
-
-    public void setComponents(ArrayList<Component> components) {
-        this.components = components;
-    }
-
-    public UUID getEstablishmentId() {
-        return establishmentId;
-    }
-
-    public void setEstablishmentId(UUID establishmentId) {
-        this.establishmentId = establishmentId;
+    @Override
+    public int hashCode() {
+        return Objects.hash(macAddress, os, vendor, architecture, components, establishmentId);
     }
 }

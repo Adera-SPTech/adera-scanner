@@ -41,20 +41,27 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class Monitoring {
-    private Looca _looca;
+import static com.adera.database.MachineDatabase.*;
 
+public class Monitoring {
+    private static Looca _looca;
     private Machine machine;
     private Establishment establishment;
 
+    @SneakyThrows
     public static void setup(EstablishmentEntity establishment) {
         Monitoring monitor = new Monitoring();
         monitor._looca = new Looca();
 
-        monitor.machine = monitor.buildMachine(establishment.getId());
+        monitor.machine = MachineMapper.toMachine(getMachineByMacAddress(_looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac()), new ArrayList<Component>());
         monitor.establishment = EstablishmentMapper.toEstablishment(establishment);
 
-        Boolean isNewMachine = monitor.checkIfNewMachine();
+        if(monitor.machine == null){
+            monitor.machine = monitor.buildMachine(monitor.establishment.getId());
+        } else {
+            Boolean isNewMachine = monitor.checkIfComponentsAreEqual(monitor.machine);
+        }
+
         if(!isNewMachine) {
             ComponentRepository repository = new ComponentRepository(new HashMap<>());
             ComponentDatabase database = new ComponentDatabase();
@@ -191,6 +198,7 @@ public class Monitoring {
         ArrayList<Component> components = new ArrayList<>();
 
         Sistema sys = this._looca.getSistema();
+        machine.setMachineName("PlaceHolder");
         machine.setOs(sys.getSistemaOperacional());
         machine.setVendor(sys.getFabricante());
         machine.setArchitecture(sys.getArquitetura());
@@ -245,32 +253,12 @@ public class Monitoring {
         return machine;
     }
 
-    private Boolean checkIfNewMachine() {
-        try {
-            var entity = new MachineDatabase().getMachineByMacAddress(this.machine.getMacAddress());
+    @SneakyThrows
+    private Boolean checkIfComponentsAreEqual(Machine machine) {
+            var componentEntities = ComponentDatabase.getComponentsByMachineId(machine.getId());
+            var components = ComponentDatabase.getComponentsByMachineId(machine.getId());
+            machine.setComponents(new ArrayList<Component>(components.stream().map(ComponentMapper::toComponent).toList()));
 
-            if(entity != null) {
-            var componentEntities = ComponentDatabase.getComponentsByMachineId(entity.getId());
-            var components = componentEntities.stream().map(ComponentMapper::toComponent).toList();
-                if (MachineMapper.toMachine(entity, new ArrayList<Component>(components)).equals(this.machine)) {
-
-                    ArrayList<Component> newComponentsList = new ArrayList<Component>();
-                    var componentsList = ComponentDatabase.getComponentsByMachineId(entity.getId());
-                    for (ComponentEntity component : componentsList) {
-                        newComponentsList.add(ComponentMapper.toComponent(component));
-                    }
-
-                    this.machine = MachineMapper.toMachine(entity, newComponentsList);
-
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-            return true;
-        } catch(SQLException e) {
-            MySQLExtension.handleException(e);
-            return false;
-        }
+            return machine.equals(buildMachine(this.establishment.getId()));
     }
 }

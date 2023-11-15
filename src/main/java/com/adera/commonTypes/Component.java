@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter @Setter
@@ -35,5 +36,18 @@ public class Component {
                     \t\ttype: %s,
                     \t\tmetricUnit: %s
                 \t\t}""", id == null ? "null" : id.toString(), model, description, type, metricUnit);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Component component = (Component) o;
+        return Objects.equals(model, component.model) && Objects.equals(description, component.description) && Objects.equals(capacity, component.capacity) && type == component.type && metricUnit == component.metricUnit;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(model, description, capacity, type, metricUnit);
     }
 }
