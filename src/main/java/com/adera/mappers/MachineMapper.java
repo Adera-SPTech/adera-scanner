@@ -1,13 +1,12 @@
 package com.adera.mappers;
 
-import com.adera.commonTypes.Component;
+import com.adera.component.Component;
 import com.adera.commonTypes.Machine;
 import com.adera.entities.MachineEntity;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class MachineMapper {
     @SneakyThrows
@@ -19,6 +18,7 @@ public abstract class MachineMapper {
     public static MachineEntity toMachineEntity(Machine self) {
         return new MachineEntity(
                 self.getId(),
+                self.getMachineName(),
                 self.getOs(),
                 self.getVendor(),
                 self.getArchitecture(),
@@ -30,6 +30,7 @@ public abstract class MachineMapper {
     public static Machine toMachine(MachineEntity self, ArrayList<Component> components) {
         return new Machine(
                 self.getId(),
+                self.getMachineName(),
                 self.getMacAddress(),
                 self.getOs(),
                 self.getVendor(),

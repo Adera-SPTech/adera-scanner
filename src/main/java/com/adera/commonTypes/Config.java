@@ -2,13 +2,16 @@ package com.adera.commonTypes;
 
 import java.util.UUID;
 
-public class Config {
+public final class Config {
     private String userId;
+
+    private UUID establishmentId;
 
     @Override
     public String toString() {
         return "Config{" +
                 "userId='" + userId + '\'' +
+                ", establishmentId='" + establishmentId + '\'' +
                 '}';
     }
 
@@ -18,5 +21,13 @@ public class Config {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public UUID getEstablishmentId() {
+        return establishmentId;
+    }
+
+    public void setEstablishmentId(UUID establishmentId) {
+        this.establishmentId = establishmentId;
     }
 }

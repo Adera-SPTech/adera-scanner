@@ -15,6 +15,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -23,6 +26,8 @@ public class Main {
     private static EstablishmentEntity establishment = null;
     private static boolean logged = false;
     public static void main(String[] args) throws SQLException, FileNotFoundException {
+        var config = new Config();
+
         ArrayList<String> errList = new ArrayList<String>();
 
         System.out.println("""
@@ -49,16 +54,16 @@ public class Main {
 
             assert cfg != null;
             if(user == null && cfg.getUserId() != null) {
+                System.out.println("A1");
                 user = UserDatabase.getOneById(cfg.getUserId());
                 if (user != null) {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
-
-                    EstablishmentRepository ecRepo = new EstablishmentRepository(new HashMap<String, ArrayList<EstablishmentEntity>>());
-
+                    config.setEstablishmentId(establishment.getId());
                     logged = true;
                 }
             } else {
+                System.out.println("A2");
                 user = requestEmailAndPassword();
 
                 if(user == null) {
@@ -67,13 +72,19 @@ public class Main {
                 } else {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
+                    config.setEstablishmentId(establishment.getId());
                     logged = true;
                 }
             }
 
         } while (!logged);
 
-        Monitoring.setup(establishment);
+        var monitor = new Monitor(config);
+
+        Runnable monitorLoop = monitor::insertMetrics;
+
+        var scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
     }
 
     public static UserEntity requestEmailAndPassword() throws SQLException {
