@@ -63,6 +63,7 @@ public class Monitor {
         Sistema sys = this._looca.getSistema();
         this.machine = new Machine();
         this.machine.setId(UUID.randomUUID());
+        this.machine.setMachineName(this._looca.getRede().getParametros().getHostName());
         this.machine.setOs(sys.getSistemaOperacional());
         this.machine.setVendor(sys.getFabricante());
         this.machine.setArchitecture(sys.getArquitetura());
