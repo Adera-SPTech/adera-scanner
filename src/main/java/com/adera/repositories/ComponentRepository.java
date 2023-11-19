@@ -47,10 +47,14 @@ public class ComponentRepository implements IUnitOfWork<ComponentEntity>{
         if(this.context.get("INSERT") != null) {
             this.commitInserted();
         }
+
+        if(this.context.get("MODIFIED") != null) {
+            this.commitModified();
+        }
     }
 
     private void commitInserted() {
-        ComponentDatabase database = new ComponentDatabase(ConnectionMySQL.getConnection());
+        ComponentDatabase database = new ComponentDatabase();
 
         ArrayList<ComponentEntity> componentsToBeInserted = this.context.get("INSERT");
         for(ComponentEntity component : componentsToBeInserted) {
@@ -59,6 +63,15 @@ public class ComponentRepository implements IUnitOfWork<ComponentEntity>{
             } catch (SQLException e) {
                 MySQLExtension.handleException(e);
             }
+        }
+    }
+
+    private void commitModified() {
+        ComponentDatabase database = new ComponentDatabase();
+
+        ArrayList<ComponentEntity> componentsToBeModified = this.context.get("MODIFIED");
+        for(ComponentEntity component : componentsToBeModified) {
+            database.updateOne(component);
         }
     }
 }
