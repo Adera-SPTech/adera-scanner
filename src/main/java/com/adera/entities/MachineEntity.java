@@ -11,7 +11,7 @@ import java.util.UUID;
 public class MachineEntity {
     private UUID id;
 
-    private String machineName;
+    private String  machineName;
 
     private String os;
 

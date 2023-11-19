@@ -46,7 +46,7 @@ public class MachineDatabase {
         PreparedStatement statement = conn.prepareStatement(query);
         try {
             statement.setString(1, machine.getId().toString());
-            statement.setString(2, "");
+            statement.setString(2, machine.getMachineName());
             statement.setString(3, machine.getOs());
             statement.setString(4, machine.getVendor());
             statement.setString(5, machine.getArchitecture().toString());
