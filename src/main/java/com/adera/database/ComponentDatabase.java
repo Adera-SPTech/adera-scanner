@@ -18,6 +18,7 @@ public class ComponentDatabase {
                 "maquinacomponente.descricao,\n" +
                 "maquinacomponente.capacidade,\n" +
                 "maquinacomponente.fkmaquina,\n" +
+                "maquinacomponente.ativo,\n" +
                 "tipocomponente.nome as tipocomponente,\n" +
                 "unidademedida.nome as unidadedemedida\n" +
                 " FROM maquinacomponente join tipocomponente on maquinacomponente.fktipocomponente = tipocomponente.id join unidademedida on tipocomponente.fkunidademedida = unidademedida.id where maquinacomponente.fkMaquina = ?";
@@ -38,8 +39,9 @@ public class ComponentDatabase {
                         result.getString(3),
                         result.getDouble(4),
                         UUID.fromString(result.getString(5)),
-                        ComponentTypeEnum.valueOf(result.getString(6)),
-                        MetricUnitEnum.fromName(result.getString(7))
+                        result.getBoolean(6),
+                        ComponentTypeEnum.valueOf(result.getString(7)),
+                        MetricUnitEnum.fromName(result.getString(8))
                 );
                 list.add(component);
             }
@@ -52,7 +54,7 @@ public class ComponentDatabase {
 
     }
     public void insertOne(ComponentEntity component) throws SQLException {
-        String query = "INSERT INTO maquinacomponente VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO maquinacomponente VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = this.conn.prepareStatement(query);
 
         try {
@@ -60,12 +62,29 @@ public class ComponentDatabase {
             statement.setString(2, component.getModel());
             statement.setString(3, component.getDescription());
             statement.setDouble(4, component.getCapacity());
-            statement.setString(5, component.getIdMachine().toString());
-            statement.setInt(6, component.getType().getId());
+            statement.setBoolean(5, component.getIsActive());
+            statement.setString(6, component.getIdMachine().toString());
+            statement.setInt(7, component.getType().getId());
 
             statement.execute();
 
             ResultSet result = statement.getResultSet();
         } catch(SQLException e) { MySQLExtension.handleException(e); }
+    }
+
+    public void updateOne(ComponentEntity component) {
+        String query = "UPDATE maquinacomponente WHERE id = ? SET modelo = ?, descricao = ?, capacidade = ?, ativo = ?, ";
+        try {
+            PreparedStatement statement = this.conn.prepareStatement(query);
+            statement.setString(1, component.getId().toString());
+            statement.setString(2, component.getModel());
+            statement.setString(3, component.getDescription());
+            statement.setDouble(4, component.getCapacity());
+            statement.setBoolean(5, component.getIsActive());
+
+            statement.execute();
+        } catch (SQLException e) {
+            MySQLExtension.handleException(e);
+        }
     }
 }

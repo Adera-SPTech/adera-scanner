@@ -19,6 +19,7 @@ public class ComponentEntity {
     private String description;
     private Double capacity;
     private UUID idMachine;
+    private Boolean isActive;
     private ComponentTypeEnum type;
     private MetricUnitEnum metricUnit;
 }

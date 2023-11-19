@@ -1,5 +1,6 @@
 package com.adera.commonTypes;
 
+import com.adera.component.Component;
 import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Machine {
     private UUID id;
+
+    private String machineName;
 
     private String macAddress;
 
@@ -41,16 +44,16 @@ public class Machine {
 
     @Override
     public String toString() {
-        return String.format("""
-                Machine {
-                    id: %s,
-                    macAddress: %s,
-                    os: %s,
-                    vendor: %s,
-                    architecture: %d,
-                    components: %s,
-                    establishmentId: %s
-                }""", id == null ? "null" : id.toString(), macAddress, os, vendor, architecture, components, establishmentId.toString());
+        return "Machine{" +
+                "id=" + id +
+                ", machineName='" + machineName + '\'' +
+                ", macAddress='" + macAddress + '\'' +
+                ", os='" + os + '\'' +
+                ", vendor='" + vendor + '\'' +
+                ", architecture=" + architecture +
+                ", components=" + components +
+                ", establishmentId=" + establishmentId +
+                '}';
     }
 
     public UUID getId() {
@@ -107,5 +110,13 @@ public class Machine {
 
     public void setEstablishmentId(UUID establishmentId) {
         this.establishmentId = establishmentId;
+    }
+
+    public String getMachineName() {
+        return machineName;
+    }
+
+    public void setMachineName(String machineName) {
+        this.machineName = machineName;
     }
 }
