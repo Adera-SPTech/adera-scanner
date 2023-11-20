@@ -14,7 +14,7 @@ public class CommandDatabase {
 
     public static ArrayList<CommandEntity> getCommandsByMachineId(UUID machineId) {
         var commands = new ArrayList<CommandEntity>();
-        var query = "SELECT * FROM comando WHERE fkMaquina = ?";
+        var query = "SELECT * FROM comando WHERE fkMaquina = ? AND rodou = false";
         try {
             assert conn != null;
             var statement = conn.prepareStatement(query);
@@ -36,5 +36,21 @@ public class CommandDatabase {
             MySQLExtension.handleException(e);
         }
         return commands;
+    }
+
+    public static void updateOne(CommandEntity command) {
+        var query = "UPDATE comando SET rodou = ? WHERE id = ?";
+
+        try {
+            assert conn != null;
+
+            var statement = conn.prepareStatement(query);
+            statement.setBoolean(1, command.getExecuted());
+            statement.setString(2, command.getId().toString());
+
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            MySQLExtension.handleException(e);
+        }
     }
 }
