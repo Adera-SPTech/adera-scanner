@@ -5,9 +5,6 @@ import com.adera.database.EstablishmentDatabase;
 import com.adera.database.UserDatabase;
 import com.adera.entities.EstablishmentEntity;
 import com.adera.entities.UserEntity;
-import com.adera.repositories.EstablishmentRepository;
-import com.adera.repositories.UserRepository;
-import com.github.britooo.looca.api.core.Looca;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -26,6 +22,8 @@ public class Main {
     private static EstablishmentEntity establishment = null;
     private static boolean logged = false;
     public static void main(String[] args) throws SQLException, FileNotFoundException {
+        Logger.logInfo("Iniciando aplicação");
+
         var config = new Config();
 
         ArrayList<String> errList = new ArrayList<String>();

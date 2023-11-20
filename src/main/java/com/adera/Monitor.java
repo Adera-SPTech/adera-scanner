@@ -6,7 +6,6 @@ import com.adera.commonTypes.Establishment;
 import com.adera.commonTypes.Machine;
 import com.adera.database.ComponentDatabase;
 import com.adera.database.MachineDatabase;
-import com.adera.entities.MetricEntity;
 import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import com.adera.mappers.ComponentMapper;
@@ -17,7 +16,6 @@ import com.adera.repositories.MetricRepository;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
-import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.rede.RedeInterface;
@@ -26,15 +24,9 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.util.Conversor;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import oshi.hardware.CentralProcessor;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class Monitor {
@@ -204,6 +196,7 @@ public class Monitor {
                 .getComponents()
                 .forEach(component -> {
                     var metric = component.getMetric();
+                    Logger.logInfo(String.format("Inserting metric %s on component %s", metric.getId(), component.getId()));
                     metricRepository.registerNew(metric);
                 });
 
