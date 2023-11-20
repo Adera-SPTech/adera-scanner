@@ -3,12 +3,14 @@ package com.adera;
 import com.adera.commonTypes.Command;
 import com.adera.commonTypes.Machine;
 import com.adera.database.CommandDatabase;
-import com.adera.enums.CommandEnum;
 import com.adera.mappers.CommandMapper;
+import com.adera.repositories.CommandRepository;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Stream;
 
 public class CommandListener {
@@ -22,22 +24,37 @@ public class CommandListener {
 
     public void fetchCommands() {
         var commands = CommandDatabase.getCommandsByMachineId(_machine.getId());
-        System.out.println(commands);
         commandQueue = commands.stream().map(CommandMapper::toCommand);
     }
 
     public void runCommands() {
+        var commandRepository = new CommandRepository(new HashMap<>());
         var isWindows = _machine.getOs().equals("Windows");
 
         Runtime runtime = Runtime.getRuntime();
         commandQueue.forEach(command -> {
-            try {
-                var current = isWindows ? command.getComand().getWindowsCommand() : command.getComand().getLinuxCommand();
-                Process pc = runtime.exec(current);
-                pc.info();
-            } catch (IOException e) {
-                // Implementar logger
-            }
+                command.setExecuted(true);
+                commandRepository.registerModified(CommandMapper.toCommandEntity(command));
+                commandRepository.commit();
+
+                var current = isWindows ? command.getCommand().getWindowsCommand() : command.getCommand().getLinuxCommand();
+
+                Arrays.stream(current).forEach(s -> {
+                    try {
+                        Process pc = runtime.exec(s);
+                        try (BufferedReader reader = new BufferedReader(new InputStreamReader(pc.getErrorStream()))) {
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                System.err.println("Error: " + line);
+                            }
+                        }
+
+                        int exitCode = pc.waitFor();
+                        System.out.println("Command exited with code: " + exitCode);
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
         });
     }
 }

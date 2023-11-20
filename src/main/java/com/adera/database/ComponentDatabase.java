@@ -73,14 +73,14 @@ public class ComponentDatabase {
     }
 
     public void updateOne(ComponentEntity component) {
-        String query = "UPDATE maquinacomponente WHERE id = ? SET modelo = ?, descricao = ?, capacidade = ?, ativo = ?, ";
+        String query = "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?";
         try {
             PreparedStatement statement = this.conn.prepareStatement(query);
-            statement.setString(1, component.getId().toString());
-            statement.setString(2, component.getModel());
-            statement.setString(3, component.getDescription());
-            statement.setDouble(4, component.getCapacity());
-            statement.setBoolean(5, component.getIsActive());
+            statement.setString(1, component.getModel());
+            statement.setString(2, component.getDescription());
+            statement.setDouble(3, component.getCapacity());
+            statement.setBoolean(4, component.getIsActive());
+            statement.setString(5, component.getId().toString());
 
             statement.execute();
         } catch (SQLException e) {

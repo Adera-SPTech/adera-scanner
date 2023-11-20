@@ -62,7 +62,6 @@ public class Main {
                     logged = true;
                 }
             } else {
-                System.out.println("A2");
                 user = requestEmailAndPassword();
 
                 if(user == null) {

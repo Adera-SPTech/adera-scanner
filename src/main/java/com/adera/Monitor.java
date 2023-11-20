@@ -26,6 +26,7 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.util.Conversor;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import oshi.hardware.CentralProcessor;
 
 import java.io.IOException;
 import java.net.InetAddress;

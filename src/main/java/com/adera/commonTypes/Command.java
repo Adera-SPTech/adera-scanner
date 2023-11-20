@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Getter @Setter
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class Command {
     private UUID id;
 
-    private CommandEnum comand;
+    private CommandEnum command;
 
     private Boolean executed;
 

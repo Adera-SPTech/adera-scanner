@@ -2,19 +2,21 @@ package com.adera.enums;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
+
 public enum CommandEnum {
-    RESTART(1, "restart", "shutdown /r /t 0", "sudo systemctl reboot"),
-    CLEANCACHE(2, "cleancache", "", "");
+    RESTART(1, "restart", new String[]{"echo teste"}, new String[]{"sudo systemctl reboot && sleep 10"}),
+    OPTIMIZE(2, "optimize", new String[]{"sfc /scannow", "runas /user:Administrator dism /online /cleanup-image /restorehealth", "netsh winsock reset", "ipconfig /flushdns"}, new String[]{"sudo apt-get update", "sudo apt-get install -f", "sudo systemd-resolve --flush-caches"});
     private final Integer id;
     private final String name;
 
     @Getter
-    private final String windowsCommand;
+    private final String[] windowsCommand;
 
     @Getter
-    private final String linuxCommand;
+    private final String[] linuxCommand;
 
-    CommandEnum(Integer id, String name, String windowsCommand, String linuxCommand) {
+    CommandEnum(Integer id, String name, String[] windowsCommand, String[] linuxCommand) {
         this.id = id;
         this.name = name;
         this.windowsCommand = windowsCommand;
