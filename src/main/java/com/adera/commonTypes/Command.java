@@ -1,22 +1,20 @@
-package com.adera.entities;
+package com.adera.commonTypes;
 
-import com.adera.enums.ComandEnum;
+import com.adera.enums.CommandEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Getter @Setter
 @AllArgsConstructor
-public class ComandEntity {
-
+public class Command {
     private UUID id;
 
-    private ComandEnum comand;
+    private CommandEnum comand;
 
     private Boolean executed;
 
-    private UUID establishmentId;
+    private UUID machineId;
 }

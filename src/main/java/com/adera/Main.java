@@ -54,7 +54,6 @@ public class Main {
 
             assert cfg != null;
             if(user == null && cfg.getUserId() != null) {
-                System.out.println("A1");
                 user = UserDatabase.getOneById(cfg.getUserId());
                 if (user != null) {
                     writeToCfgFile(user.getId().toString());
@@ -83,8 +82,17 @@ public class Main {
 
         Runnable monitorLoop = monitor::insertMetrics;
 
-        var scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
+        var monitorScheduler = Executors.newScheduledThreadPool(1);
+        monitorScheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
+
+        Runnable commandLoop = () -> {
+            var listener = new CommandListener(monitor.getMachine());
+            listener.fetchCommands();
+            listener.runCommands();
+        };
+
+        var commandScheduler = Executors.newScheduledThreadPool(1);
+        commandScheduler.scheduleAtFixedRate(commandLoop, 0, 10, TimeUnit.SECONDS);
     }
 
     public static UserEntity requestEmailAndPassword() throws SQLException {
