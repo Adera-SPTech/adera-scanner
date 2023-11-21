@@ -1,5 +1,6 @@
-package com.adera.commonTypes;
+package com.adera.component;
 
+import com.adera.entities.MetricEntity;
 import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import lombok.AllArgsConstructor;
@@ -13,29 +14,31 @@ import java.util.UUID;
 @Getter @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Component {
-    private UUID id;
+public abstract class Component {
+    protected UUID id;
 
-    private String model;
+    protected String model;
 
-    private String description;
+    protected String description;
 
-    private Double capacity;
+    protected Double capacity;
 
-    private ComponentTypeEnum type;
+    protected ComponentTypeEnum type;
 
-    private MetricUnitEnum metricUnit;
+    protected MetricUnitEnum metricUnit;
+
+    public abstract MetricEntity getMetric();
 
     @Override
     public String toString() {
-        return String.format("""
-                \n\t\tComponent {
-                    \t\tid: %s,
-                    \t\tmodel: %s,
-                    \t\tdescription: %s,
-                    \t\ttype: %s,
-                    \t\tmetricUnit: %s
-                \t\t}""", id == null ? "null" : id.toString(), model, description, type, metricUnit);
+        return "Component{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", description='" + description + '\'' +
+                ", capacity=" + capacity +
+                ", type=" + type +
+                ", metricUnit=" + metricUnit +
+                '}';
     }
 
     @Override

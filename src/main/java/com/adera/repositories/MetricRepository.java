@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class MetricRepository implements IUnitOfWork<MetricEntity>{
@@ -56,6 +57,7 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
         ArrayList<MetricEntity> metricsToBeInserted = this.context.get("INSERT");
         for(MetricEntity metric : metricsToBeInserted) {
             try {
+                metric.setId(UUID.randomUUID());
                 database.insertOne(metric);
             } catch (SQLException e) {
                 MySQLExtension.handleException(e);

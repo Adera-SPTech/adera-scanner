@@ -23,7 +23,7 @@ public class MetricDatabase {
         try {
             statement.setString(1, metric.getId().toString());
             statement.setString(2, metric.getMeasurement());
-            statement.setDate(3, metric.getDate());
+            statement.setString(3, metric.getDate().toString());
             statement.setString(4, metric.getFkComponent().toString());
             statement.execute();
 
