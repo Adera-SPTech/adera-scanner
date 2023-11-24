@@ -1,7 +1,6 @@
 package com.adera.database;
 
-import com.adera.extensions.MySQLExtension;
-import lombok.SneakyThrows;
+import com.adera.extensions.SQLExtension;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +14,6 @@ public class ConnectionMySQL {
 
     private static Connection conn;
 
-    @SneakyThrows
     public static Connection getConnection() {
         try {
             if (conn == null) {
@@ -23,7 +21,7 @@ public class ConnectionMySQL {
             }
             return conn;
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return null;
         }
     }

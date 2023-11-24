@@ -5,9 +5,9 @@ C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\CommandListener.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\entities\MachineEntity.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\component\MemoryComponent.java
+C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\extensions\SQLExtension.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\repositories\MetricRepository.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\Establishment.java
-C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\extensions\MySQLExtension.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\enums\MetricUnitEnum.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\entities\ComponentEntity.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\entities\UserEntity.java
@@ -18,7 +18,6 @@ C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\enums\ComponentTypeEnum.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\mappers\ComponentMapper.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\repositories\UserRepository.java
-C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\Component.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\Address.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\enums\CommandEnum.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\Config.java
@@ -30,9 +29,11 @@ C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\entities\EstablishmentEntity.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\mappers\MachineMapper.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\ProgramConfig.java
+C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\Logger.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\commonTypes\User.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\Monitor.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\database\UserDatabase.java
+C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\database\ConnectionSQLServer.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\repositories\ComponentRepository.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\component\CpuComponent.java
 C:\Users\renan_w5d32mw\OneDrive\Documentos\adera-scanner\src\main\java\com\adera\repositories\IUnitOfWork.java

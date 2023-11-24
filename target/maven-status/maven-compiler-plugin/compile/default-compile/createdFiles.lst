@@ -34,7 +34,6 @@ com\adera\commonTypes\Address.class
 com\adera\gui\Login$1.class
 com\adera\component\DiskComponent.class
 com\adera\mappers\EstablishmentMapper.class
-com\adera\extensions\MySQLExtension.class
 com\adera\repositories\MachineRepository.class
 com\adera\database\EstablishmentDatabase.class
 com\adera\commonTypes\User.class
@@ -48,4 +47,3 @@ com\adera\database\MetricDatabase.class
 com\adera\repositories\IUnitOfWork.class
 com\adera\Main.class
 com\adera\commonTypes\Config.class
-com\adera\commonTypes\Component.class
