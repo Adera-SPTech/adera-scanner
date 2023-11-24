@@ -26,7 +26,6 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.util.Conversor;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import oshi.hardware.CentralProcessor;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -206,8 +205,11 @@ public class Monitor {
                     var metric = component.getMetric();
                     Logger.logInfo(String.format("Inserting metric %s on component %s", metric.getId(), component.getId()));
                     metricRepository.registerNew(metric);
+                    NotificationHandler.handleNotification(component, metric, establishment.getId(), machine);
                 });
 
         metricRepository.commit();
     }
+
+
 }

@@ -25,6 +25,14 @@ public class OptionsEntity {
 
         private Time restartTime;
 
+        private Integer cpuAttention;
+
+        private Integer ramAttention;
+
+        private Integer diskAttention;
+
+        private Integer latencyAttention;
+
         private Integer cpuLimit;
 
         private Integer ramLimit;
