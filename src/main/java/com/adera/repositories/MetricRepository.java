@@ -1,11 +1,9 @@
 package com.adera.repositories;
 
-import com.adera.database.ComponentDatabase;
 import com.adera.database.MetricDatabase;
 import com.adera.database.ConnectionMySQL;
-import com.adera.entities.ComponentEntity;
 import com.adera.entities.MetricEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     }
 
     private void commitInserted() {
-        MetricDatabase database = new MetricDatabase(ConnectionMySQL.getConnection());
+        MetricDatabase database = new MetricDatabase();
 
         ArrayList<MetricEntity> metricsToBeInserted = this.context.get("INSERT");
         for(MetricEntity metric : metricsToBeInserted) {
@@ -62,7 +60,7 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
                 metric.setId(UUID.randomUUID());
                 database.insertOne(metric);
             } catch (SQLException e) {
-                MySQLExtension.handleException(e);
+                SQLExtension.handleException(e);
             }
         }
     }

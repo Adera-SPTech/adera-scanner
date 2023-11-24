@@ -21,4 +21,7 @@ public class MetricEntity {
     public Boolean alerted;
 
     public UUID fkComponent;
+
+
+
 }

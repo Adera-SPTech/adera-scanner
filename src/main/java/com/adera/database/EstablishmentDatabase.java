@@ -1,10 +1,9 @@
 package com.adera.database;
 
 import com.adera.entities.EstablishmentEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class EstablishmentDatabase {
@@ -28,7 +27,7 @@ public class EstablishmentDatabase {
             }
             return ec;
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return null;
         }
     }
@@ -44,7 +43,7 @@ public class EstablishmentDatabase {
             statement.execute();
             return statement.getResultSet();
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return null;
         }
     }

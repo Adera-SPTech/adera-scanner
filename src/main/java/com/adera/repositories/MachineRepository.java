@@ -1,10 +1,8 @@
 package com.adera.repositories;
 
-import com.adera.commonTypes.Machine;
 import com.adera.database.MachineDatabase;
 import com.adera.entities.MachineEntity;
-import com.adera.extensions.MySQLExtension;
-import lombok.AllArgsConstructor;
+import com.adera.extensions.SQLExtension;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.SQLException;
@@ -57,7 +55,7 @@ public class MachineRepository implements IUnitOfWork<MachineEntity> {
             try {
                 MachineDatabase.insertOne(machine);
             } catch(SQLException e) {
-                MySQLExtension.handleException(e);
+                SQLExtension.handleException(e);
             }
         }
     }

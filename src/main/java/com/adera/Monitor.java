@@ -203,6 +203,7 @@ public class Monitor {
                 .getComponents()
                 .forEach(component -> {
                     var metric = component.getMetric();
+                    Logger.logInfo(String.format("Inserting metric %s on component %s", metric.getId(), component.getId()));
                     metricRepository.registerNew(metric);
                     NotificationHandler.handleNotification(component, establishment.getId(), machine);
                 });
