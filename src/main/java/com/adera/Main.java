@@ -60,7 +60,6 @@ public class Main {
                     logged = true;
                 }
             } else {
-                System.out.println("A2");
                 user = requestEmailAndPassword();
 
                 if(user == null) {
@@ -84,9 +83,10 @@ public class Main {
         monitorScheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
 
         Runnable commandLoop = () -> {
-            var listener = new CommandListener(monitor.getMachine());
+            var listener = new CommandListener(config.getEstablishmentId(), monitor.getMachine());
             listener.fetchCommands();
             listener.runCommands();
+            listener.watch();
         };
 
         var commandScheduler = Executors.newScheduledThreadPool(1);
