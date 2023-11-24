@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Command {
     private UUID id;
 
-    private CommandEnum comand;
+    private CommandEnum command;
 
     private Boolean executed;
 

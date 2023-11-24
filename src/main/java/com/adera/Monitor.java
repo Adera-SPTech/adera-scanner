@@ -204,7 +204,7 @@ public class Monitor {
                 .forEach(component -> {
                     var metric = component.getMetric();
                     metricRepository.registerNew(metric);
-                    NotificationHandler.handleNotification(component, metric, establishment.getId(), machine);
+                    NotificationHandler.handleNotification(component, establishment.getId(), machine);
                 });
 
         metricRepository.commit();

@@ -13,11 +13,11 @@ public class AlertDatabase {
     private static final Connection connMySQL = ConnectionMySQL.getConnection();
     private static final Connection connSQLServer = ConnectionSQLServer.getConnection();
 
-    public static void insertOne(AlertEntity alert) throws SQLException {
+    public static void insertOne(AlertEntity alert) {
         String query = "INSERT INTO alerta VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = this.connMySQL.prepareStatement(query);
 
         try {
+        PreparedStatement statement = connMySQL.prepareStatement(query);
             statement.setString(1, alert.getId().toString());
             statement.setString(3, alert.getDate().toString());
             statement.setString(2, alert.getLevel());

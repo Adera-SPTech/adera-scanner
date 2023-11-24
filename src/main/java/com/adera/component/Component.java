@@ -1,6 +1,8 @@
 package com.adera.component;
 
+import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
+import com.adera.entities.OptionsEntity;
 import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -48,6 +52,8 @@ public abstract class Component {
         Component component = (Component) o;
         return Objects.equals(model, component.model) && Objects.equals(description, component.description) && Objects.equals(capacity, component.capacity) && type == component.type && metricUnit == component.metricUnit;
     }
+
+    public abstract AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options);
 
     @Override
     public int hashCode() {
