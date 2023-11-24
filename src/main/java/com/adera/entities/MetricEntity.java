@@ -18,6 +18,8 @@ public class MetricEntity {
 
     public String measurement;
 
+    public Boolean alerted;
+
     public UUID fkComponent;
 
 

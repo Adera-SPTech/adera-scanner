@@ -205,7 +205,7 @@ public class Monitor {
                     var metric = component.getMetric();
                     Logger.logInfo(String.format("Inserting metric %s on component %s", metric.getId(), component.getId()));
                     metricRepository.registerNew(metric);
-                    NotificationHandler.handleNotification(component, metric, establishment.getId(), machine);
+                    NotificationHandler.handleNotification(component, establishment.getId(), machine);
                 });
 
         metricRepository.commit();

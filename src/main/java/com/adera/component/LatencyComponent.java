@@ -1,12 +1,17 @@
 package com.adera.component;
 
+import com.adera.database.AlertDatabase;
+import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
+import com.adera.entities.OptionsEntity;
 import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import lombok.AllArgsConstructor;
 
 import java.net.InetAddress;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class LatencyComponent extends Component{
@@ -24,6 +29,7 @@ public class LatencyComponent extends Component{
                 UUID.randomUUID(),
                 LocalDateTime.now(),
                 "-1",
+                false,
                 getId()
         );
 
@@ -41,5 +47,33 @@ public class LatencyComponent extends Component{
         }
 
         return metric;
+    }
+
+    @Override
+    public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
+        String  level = null;
+        String  description = null;
+        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getLatencyAttention() &&
+                !m.getAlerted()))) {
+            level = "Atenção";
+            description = String.format("A Latência da Maquina %s ultrapassou o limite de Atenção");
+            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getLatencyAttention() &&
+                    !m.getAlerted()))){
+                level = "Crítico";
+                description = String.format("A Latência da Maquina %s ultrapassou o limite Critico");
+            }
+        }
+
+        var alert = new AlertEntity(
+                UUID.randomUUID(),
+                new Date(),
+                level,
+                description,
+                recentMetrics.get(0).id,
+                false
+        );
+        AlertDatabase.insertOne(alert);
+
+        return alert;
     }
 }

@@ -2,7 +2,10 @@ package com.adera;
 
 import com.adera.commonTypes.Machine;
 import com.adera.component.*;
+import com.adera.database.AlertDatabase;
+import com.adera.database.MetricDatabase;
 import com.adera.database.OptionDatabase;
+import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
@@ -11,60 +14,33 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class NotificationHandler {
     private static HttpClient client = HttpClient.newHttpClient();
     private static final String URL = "https://hooks.slack.com/services/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";
 
-    private static String level;
-
     @SneakyThrows
-    public static void handleNotification(Component component, MetricEntity metric, UUID establismentId, Machine machine) {
+    public static void handleNotification(Component component, UUID establismentId, Machine machine) {
         var options = OptionDatabase.getOptionsByEstablishmentId(establismentId);
+        List<MetricEntity> recentMetrics = MetricDatabase.getRecentMetricsByComponentId(component.getId());
 
-        switch (component.getType()) {
-            case CPU -> {
-                if (Integer.parseInt(metric.getMeasurement()) >= options.getCpuAttention()) {
-                    level = "Atenção";
-                    if (Integer.parseInt(metric.getMeasurement()) >= options.getCpuLimit()) {
-                        level = "Crítico";
-                    }
-                }
-            }
-            case DISK -> {
-                if (Integer.parseInt(metric.getMeasurement()) >= options.getDiskAttention()) {
-                    level = "Atenção";
-                    if (Integer.parseInt(metric.getMeasurement()) >= options.getDiskLimit()) {
-                        level = "Crítico";
-                    }
-                }
-            }
-            case MEMORY -> {
-                if (Integer.parseInt(metric.getMeasurement()) >= options.getRamAttention()) {
-                    level = "Atenção";
-                    if (Integer.parseInt(metric.getMeasurement()) >= options.getRamLimit()) {
-                        level = "Crítico";
-                    }
-                }
-            }
-            case NETWORK -> {
-                if (Integer.parseInt(metric.getMeasurement()) >= options.getLatencyAttention()) {
-                    level = "Atenção";
-                    if (Integer.parseInt(metric.getMeasurement()) >= options.getLatencyLimit()) {
-                        level = "Crítico";
-                    }
-                }
-            }
+       AlertEntity alert = component.getAlert(recentMetrics, options);
+
+        if (alert.getLevel() != null) {
+            String alertMessage = String
+                    .format("Alerta Nivel: %s,\n" +
+                            "\tMaquina: %s,\n" +
+                            "\tComponente: %s,\n" +
+                            "\tNome Componente: %s,\n" +
+                            "\tValor Medido: %d%%", alert.getLevel(), machine.getMachineName(), component.getType(), component.getModel(), recentMetrics.get(0).getMeasurement());
+
+            formatNotification(alertMessage);
+            recentMetrics.get(0).setAlerted(true);
+            MetricDatabase.updateOne(recentMetrics.get(0));
         }
-        String alert = String
-                .format("Alerta Nivel: %s,\n" +
-                        "\tMaquina: %s,\n" +
-                        "\tComponente: %s,\n" +
-                        "\tNome Componente: %s,\n" +
-                        "\tValor Medido: %d%%", level, machine.getMachineName(), component.getType(), component.getModel(), metric.getMeasurement());
-
-        formatNotification(alert);
     }
 
     public static void formatNotification(String alert) {

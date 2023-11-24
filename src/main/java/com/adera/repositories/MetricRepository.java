@@ -44,6 +44,8 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     public void commit() {
         if(this.context.get("INSERT") != null) {
             this.commitInserted();
+        } else if (this.context.get("MODIFY") != null) {
+            this.commitModified();
         }
 
         this.context.clear();
@@ -59,6 +61,19 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
                 database.insertOne(metric);
             } catch (SQLException e) {
                 SQLExtension.handleException(e);
+            }
+        }
+    }
+
+    private  void commitModified(){
+        MetricDatabase database = new MetricDatabase(ConnectionMySQL.getConnection());
+        ArrayList<MetricEntity> metricsToBeModified = this.context.get("MODIFY");
+
+        for(MetricEntity metric : metricsToBeModified) {
+            try {
+                database.updateOne(metric);
+            } catch (SQLException e) {
+                MySQLExtension.handleException(e);
             }
         }
     }
