@@ -2,7 +2,6 @@ package com.adera.database;
 
 import com.adera.entities.EstablishmentEntity;
 import com.adera.extensions.MySQLExtension;
-import com.mysql.cj.MysqlConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

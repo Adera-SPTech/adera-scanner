@@ -5,9 +5,6 @@ import com.adera.database.EstablishmentDatabase;
 import com.adera.database.UserDatabase;
 import com.adera.entities.EstablishmentEntity;
 import com.adera.entities.UserEntity;
-import com.adera.repositories.EstablishmentRepository;
-import com.adera.repositories.UserRepository;
-import com.github.britooo.looca.api.core.Looca;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +23,8 @@ public class Main {
     private static EstablishmentEntity establishment = null;
     private static boolean logged = false;
     public static void main(String[] args) throws SQLException, FileNotFoundException {
+        Logger.logInfo("Iniciando aplicação");
+
         var config = new Config();
 
         ArrayList<String> errList = new ArrayList<String>();
@@ -80,9 +79,7 @@ public class Main {
 
         var monitor = new Monitor(config);
 
-        Runnable monitorLoop = () -> {
-            monitor.insertMetrics();
-        };
+        Runnable monitorLoop = monitor::insertMetrics;
 
         var monitorScheduler = Executors.newScheduledThreadPool(1);
         monitorScheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
