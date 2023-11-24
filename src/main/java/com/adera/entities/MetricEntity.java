@@ -19,4 +19,7 @@ public class MetricEntity {
     public String measurement;
 
     public UUID fkComponent;
+
+
+
 }
