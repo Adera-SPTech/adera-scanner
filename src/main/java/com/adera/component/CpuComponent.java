@@ -15,6 +15,9 @@ public class CpuComponent extends Component {
         super(id, model, description, capacity, type, metricUnit);
     }
 
+    public CpuComponent() {
+    }
+
     @Override
     public MetricEntity getMetric() {
         return new MetricEntity(

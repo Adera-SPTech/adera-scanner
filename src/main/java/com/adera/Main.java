@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -60,6 +61,7 @@ public class Main {
                     logged = true;
                 }
             } else {
+                System.out.println("A2");
                 user = requestEmailAndPassword();
 
                 if(user == null) {
