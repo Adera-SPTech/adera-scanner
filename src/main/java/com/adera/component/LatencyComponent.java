@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 
 import java.net.InetAddress;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -27,10 +29,11 @@ public class LatencyComponent extends Component{
 
     @Override
     public MetricEntity getMetric() {
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
         var metric = new MetricEntity(
                 UUID.randomUUID(),
                 -1,
-                LocalDateTime.now(),
+                zone.toLocalDateTime(),
                 false,
                 getId()
         );
@@ -64,9 +67,10 @@ public class LatencyComponent extends Component{
                 level = "Crítico";
                 description = String.format("A Latência da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
-                    LocalDateTime.now(),
+                    zone.toLocalDateTime(),
                     level,
                     description,
                     recentMetrics.get(0).id,

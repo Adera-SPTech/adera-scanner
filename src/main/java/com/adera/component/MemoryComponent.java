@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 
 import javax.crypto.Mac;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -34,11 +36,11 @@ public class MemoryComponent extends Component{
         var uso = l.getMemoria().getEmUso();
 
         int porcentagemUso = (int) (((double) uso / total) * 100);
-
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
         return new MetricEntity(
                 UUID.randomUUID(),
                 porcentagemUso,
-                LocalDateTime.now(),
+                zone.toLocalDateTime(),
                 false,
                 getId()
         );
@@ -56,9 +58,10 @@ public class MemoryComponent extends Component{
                 level = "Crítico";
                 description = String.format("A Ram da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
-                    LocalDateTime.now(),
+                    zone.toLocalDateTime(),
                     level,
                     description,
                     recentMetrics.get(0).id,

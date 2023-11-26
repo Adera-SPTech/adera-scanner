@@ -13,6 +13,8 @@ import com.github.britooo.looca.api.group.discos.Volume;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -38,10 +40,11 @@ public class DiskComponent extends Component{
         long inUse = total - available;
         Double percentageUsing = ((double) inUse /total)*100;
 
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
         return new MetricEntity(
                 UUID.randomUUID(),
                 (int) Math.round(percentageUsing),
-                LocalDateTime.now(),
+                zone.toLocalDateTime(),
                 false,
                 getId()
         );

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class EstablishmentDatabase {
 
-    private static final Connection conn = ConnectionMySQL.getConnection();
+    private static final Connection conn = ConnectionSQLServer.getConnection();
 
     public static EstablishmentEntity getOneById(String id) throws SQLException {
         assert conn != null;

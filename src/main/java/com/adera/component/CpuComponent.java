@@ -13,6 +13,8 @@ import com.github.britooo.looca.api.core.Looca;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class CpuComponent extends Component {
@@ -34,9 +36,10 @@ public class CpuComponent extends Component {
                 level = "Crítico";
                 description = String.format("A CPU da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
-                    LocalDateTime.now(),
+                    zone.toLocalDateTime(),
                     level,
                     description,
                     recentMetrics.get(0).id,
@@ -64,10 +67,11 @@ public class CpuComponent extends Component {
     public MetricEntity getMetric() {
         var l = new Looca();
         var uso = l.getProcessador().getUso();
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
         return new MetricEntity(
                 UUID.randomUUID(),
                 uso.intValue(),
-                LocalDateTime.now(),
+                zone.toLocalDateTime(),
                 false,
                 getId()
         );

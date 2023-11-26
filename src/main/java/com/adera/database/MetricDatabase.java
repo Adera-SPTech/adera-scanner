@@ -9,6 +9,8 @@ import lombok.SneakyThrows;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,6 @@ public class MetricDatabase {
         HashMap<Connection, String> queries = new HashMap<>();
         queries.put(connMySql, "INSERT INTO metrica VALUES (?, ?, ?, ?, ?)");
         queries.put(connSqlServer, "INSERT INTO metrica VALUES (?, ?, ?, ?, ?)");
-
 
         queries.forEach((conn, query) -> {
 
