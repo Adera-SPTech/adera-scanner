@@ -4,7 +4,7 @@ import com.adera.database.AlertDatabase;
 import com.adera.database.ComponentDatabase;
 import com.adera.entities.AlertEntity;
 import com.adera.entities.ComponentEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.SQLException;
@@ -50,11 +50,7 @@ public class AlertRepository implements IUnitOfWork<AlertEntity> {
     private void commitInserted() {
         ArrayList<AlertEntity> alertsToBeInserted = this.context.get("INSERT");
         for(AlertEntity alert : alertsToBeInserted) {
-            try {
-                AlertDatabase.insertOne(alert);
-            } catch (SQLException e) {
-                MySQLExtension.handleException(e);
-            }
+            AlertDatabase.insertOne(alert);
         }
     }
 }

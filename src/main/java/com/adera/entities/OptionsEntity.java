@@ -17,6 +17,9 @@ import java.util.UUID;
     @AllArgsConstructor
 public class OptionsEntity {
 
+        public OptionsEntity() {
+        }
+
         private Integer id;
 
         private Boolean autoRestart;

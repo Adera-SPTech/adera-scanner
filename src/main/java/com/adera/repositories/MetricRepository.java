@@ -52,13 +52,11 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     }
 
     private void commitInserted() {
-        MetricDatabase database = new MetricDatabase();
-
         ArrayList<MetricEntity> metricsToBeInserted = this.context.get("INSERT");
         for(MetricEntity metric : metricsToBeInserted) {
             try {
                 metric.setId(UUID.randomUUID());
-                database.insertOne(metric);
+                MetricDatabase.insertOne(metric);
             } catch (SQLException e) {
                 SQLExtension.handleException(e);
             }
@@ -66,15 +64,10 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     }
 
     private  void commitModified(){
-        MetricDatabase database = new MetricDatabase(ConnectionMySQL.getConnection());
         ArrayList<MetricEntity> metricsToBeModified = this.context.get("MODIFY");
 
         for(MetricEntity metric : metricsToBeModified) {
-            try {
-                database.updateOne(metric);
-            } catch (SQLException e) {
-                MySQLExtension.handleException(e);
-            }
+            MetricDatabase.updateOne(metric);
         }
     }
 }

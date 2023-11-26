@@ -26,10 +26,15 @@ public class MemoryComponent extends Component{
 
     @Override
     public MetricEntity getMetric() {
+        var l = new Looca();
+        var total = l.getMemoria().getTotal();
+        var uso = l.getMemoria().getEmUso();
+        int porcentagemUso = (int) (uso / total) * 100;
+
         return new MetricEntity(
                 UUID.randomUUID(),
                 LocalDateTime.now(),
-                Conversor.formatarBytes(new Looca().getMemoria().getEmUso()),
+                porcentagemUso,
                 false,
                 getId()
         );
@@ -39,12 +44,12 @@ public class MemoryComponent extends Component{
     public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getRamAttention() &&
-                !m.getAlerted()))) {
+        if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getRamAttention() &&
+                !m.getAlerted())) {
             level = "Atenção";
             description = String.format("A Ram da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getRamAttention() &&
-                    !m.getAlerted()))){
+            if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getRamAttention() &&
+                    !m.getAlerted())){
                 level = "Crítico";
                 description = String.format("A Ram da Maquina %s ultrapassou o limite Critico");
             }

@@ -39,7 +39,7 @@ public class DiskComponent extends Component{
         return new MetricEntity(
                 UUID.randomUUID(),
                 LocalDateTime.now(),
-                String.format("%.0f%%", percentageUsing),
+                (int) Math.round(percentageUsing),
                 false,
                 getId()
         );
@@ -49,12 +49,12 @@ public class DiskComponent extends Component{
     public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getDiskAttention() &&
-                !m.getAlerted()))) {
+        if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getDiskAttention() &&
+                !m.getAlerted())) {
             level = "Atenção";
             description = String.format("O Disco da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getDiskAttention() &&
-                    !m.getAlerted()))){
+            if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getDiskAttention() &&
+                    !m.getAlerted())){
                 level = "Crítico";
                 description = String.format("O Disco da Maquina %s ultrapassou o limite Critico");
             }

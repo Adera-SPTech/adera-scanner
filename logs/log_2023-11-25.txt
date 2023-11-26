@@ -1,0 +1,420 @@
+nov. 25, 2023 5:58:29 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 5:58:41 PM com.adera.Logger logError
+GRAVE: Erro SQL - 1045 - Access denied for user 'root'@'localhost' (using password: YES)
+java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at com.adera.database.ConnectionMySQL.getConnection(ConnectionMySQL.java:20)
+	at com.adera.database.UserDatabase.<clinit>(UserDatabase.java:13)
+	at com.adera.Main.requestEmailAndPassword(Main.java:104)
+	at com.adera.Main.main(Main.java:63)
+
+nov. 25, 2023 5:59:24 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 6:49:22 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 6:49:26 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:27 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:49:28 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:50 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 6:56:54 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:54 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 6:56:55 PM com.adera.Logger logError
+GRAVE: Erro SQL - 547 - The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+com.microsoft.sqlserver.jdbc.SQLServerException: The INSERT statement conflicted with the FOREIGN KEY constraint "FK__maquinaco__fkTip__2F10007B". The conflict occurred in database "adera", table "dbo.tipocomponente", column 'id'.
+	at com.microsoft.sqlserver.jdbc.SQLServerException.makeFromDatabaseError(SQLServerException.java:259)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.getNextResult(SQLServerStatement.java:1695)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.doExecutePreparedStatement(SQLServerPreparedStatement.java:648)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement$PrepStmtExecCmd.doExecute(SQLServerPreparedStatement.java:567)
+	at com.microsoft.sqlserver.jdbc.TDSCommand.execute(IOBuffer.java:7675)
+	at com.microsoft.sqlserver.jdbc.SQLServerConnection.executeCommand(SQLServerConnection.java:4137)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeCommand(SQLServerStatement.java:272)
+	at com.microsoft.sqlserver.jdbc.SQLServerStatement.executeStatement(SQLServerStatement.java:246)
+	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.execute(SQLServerPreparedStatement.java:544)
+	at com.adera.database.ComponentDatabase.lambda$insertOne$0(ComponentDatabase.java:76)
+	at java.base/java.util.HashMap.forEach(HashMap.java:1421)
+	at com.adera.database.ComponentDatabase.insertOne(ComponentDatabase.java:64)
+	at com.adera.repositories.ComponentRepository.commitInserted(ComponentRepository.java:58)
+	at com.adera.repositories.ComponentRepository.commit(ComponentRepository.java:44)
+	at com.adera.Monitor.insertNewMachine(Monitor.java:197)
+	at com.adera.Monitor.<init>(Monitor.java:52)
+	at com.adera.Main.main(Main.java:78)
+
+nov. 25, 2023 9:17:36 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:17:51 PM com.adera.Logger logInfo
+INFORMAÇÕES: Inserting metric 5fd4aad7-ccea-42c1-a26a-63f827fd0965 on component 111113ee-ab47-4383-b221-01b203924fc5
+nov. 25, 2023 9:23:10 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:26:18 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:34:09 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:40:27 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:41:00 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:46:23 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação
+nov. 25, 2023 9:47:50 PM com.adera.Logger logInfo
+INFORMAÇÕES: Iniciando aplicação

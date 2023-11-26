@@ -25,12 +25,12 @@ public class CpuComponent extends Component {
     public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getCpuAttention() &&
-                !m.getAlerted()))) {
+        if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getCpuAttention() &&
+                !m.getAlerted())) {
             level = "Atenção";
             description = String.format("A CPU da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getCpuAttention() &&
-                    !m.getAlerted()))){
+            if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getCpuAttention() &&
+                    !m.getAlerted())){
                 level = "Crítico";
                 description = String.format("A CPU da Maquina %s ultrapassou o limite Critico");
             }
@@ -54,7 +54,7 @@ public class CpuComponent extends Component {
         return new MetricEntity(
                 UUID.randomUUID(),
                 LocalDateTime.now(),
-                Double.toString(new Looca().getProcessador().getUso()),
+                (int) Math.round(new Looca().getProcessador().getUso()),
                 false,
                 getId()
         );

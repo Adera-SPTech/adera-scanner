@@ -16,7 +16,7 @@ public class MetricEntity {
 
     public LocalDateTime date;
 
-    public String measurement;
+    public Integer measurement;
 
     public Boolean alerted;
 

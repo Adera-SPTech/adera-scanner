@@ -1,5 +1,6 @@
 package com.adera.database;
 
+import com.adera.Logger;
 import com.adera.entities.MachineEntity;
 import com.adera.extensions.SQLExtension;
 
@@ -41,7 +42,7 @@ public class MachineDatabase {
             SQLExtension.handleException(e);
             return null;
         } catch (ClassNotFoundException e) {
-            System.out.println("Driver not found");
+            Logger.logError("SQL Server Driver not found", e);
             return null;
         }
     }

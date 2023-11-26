@@ -28,7 +28,7 @@ public class LatencyComponent extends Component{
         var metric = new MetricEntity(
                 UUID.randomUUID(),
                 LocalDateTime.now(),
-                "-1",
+                -1,
                 false,
                 getId()
         );
@@ -40,7 +40,7 @@ public class LatencyComponent extends Component{
             if (address.isReachable(1000)) {
                 long endTime = System.currentTimeMillis();
                 long latency = endTime - startTime;
-                metric.setMeasurement(String.format("%d", latency));
+                metric.setMeasurement((int) latency);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -53,12 +53,12 @@ public class LatencyComponent extends Component{
     public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getLatencyAttention() &&
-                !m.getAlerted()))) {
+        if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getLatencyAttention() &&
+                !m.getAlerted())) {
             level = "Atenção";
             description = String.format("A Latência da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getLatencyAttention() &&
-                    !m.getAlerted()))){
+            if (recentMetrics.stream().allMatch(m -> m.getMeasurement() >= options.getLatencyAttention() &&
+                    !m.getAlerted())){
                 level = "Crítico";
                 description = String.format("A Latência da Maquina %s ultrapassou o limite Critico");
             }

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class UserDatabase {
-    private static final Connection conn = ConnectionMySQL.getConnection();
+    private static final Connection conn = ConnectionSQLServer.getConnection();
 
     public void insertOne(UserEntity user) throws SQLException {
         assert conn != null;

@@ -15,6 +15,7 @@ public class Logger {
 
             Handler consoleHandler = new ConsoleHandler();
             consoleHandler.setLevel(Level.ALL);
+            consoleHandler.setFilter(record -> false);
 
             Handler fileHandler = new FileHandler(generateLogFileName(), true);
             fileHandler.setLevel(Level.ALL);

@@ -2,7 +2,7 @@ package com.adera.database;
 
 import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,6 +27,6 @@ public class AlertDatabase {
             statement.execute();
 
             ResultSet result = statement.getResultSet();
-        } catch(SQLException e) { MySQLExtension.handleException(e); }
+        } catch(SQLException e) { SQLExtension.handleException(e); }
     }
 }
