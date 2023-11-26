@@ -7,6 +7,7 @@ import com.adera.database.MetricDatabase;
 import com.adera.database.OptionDatabase;
 import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
+import com.adera.repositories.MetricRepository;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
 
@@ -20,26 +21,33 @@ import java.util.UUID;
 
 public class NotificationHandler {
     private static HttpClient client = HttpClient.newHttpClient();
-    private static final String URL = "https://hooks.slack.com/services/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";
+    private static final String URL = "https://hooks.slack.com/services/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";
 
     @SneakyThrows
     public static void handleNotification(Component component, UUID establismentId, Machine machine) {
-        var options = OptionDatabase.getOptionsByEstablishmentId(establismentId);
+        var repo = new MetricRepository();
         List<MetricEntity> recentMetrics = MetricDatabase.getRecentMetricsByComponentId(component.getId());
 
-       AlertEntity alert = component.getAlert(recentMetrics, options);
+        var alert = component.getAlert(recentMetrics, establismentId, machine);
 
-        if (alert.getLevel() != null) {
-            String alertMessage = String
-                    .format("Alerta Nivel: %s,\n" +
-                            "\tMaquina: %s,\n" +
-                            "\tComponente: %s,\n" +
-                            "\tNome Componente: %s,\n" +
-                            "\tValor Medido: %d%%", alert.getLevel(), machine.getMachineName(), component.getType(), component.getModel(), recentMetrics.get(0).getMeasurement());
+        assert alert != null;
+        if(alert != null) {
+            if (alert.getLevel() != null) {
+                String alertMessage = String
+                        .format("Alerta Nivel: %s,\n" +
+                                "\tMaquina: %s,\n" +
+                                "\tComponente: %s,\n" +
+                                "\tNome Componente: %s,\n" +
+                                "\tValor Medido: %d%%", alert.getLevel(), machine.getMachineName(), component.getType(), component.getModel(), recentMetrics.get(0).getMeasurement());
 
-            formatNotification(alertMessage);
-            recentMetrics.get(0).setAlerted(true);
-            MetricDatabase.updateOne(recentMetrics.get(0));
+                Logger.logInfo(String.format("Enviando alerta para o Slack - %s", alert.getDescription()));
+                formatNotification(alertMessage);
+                recentMetrics.stream().forEach(metric -> {
+                    metric.setAlerted(true);
+                    repo.registerModified(metric);
+                });
+                repo.commit();
+            }
         }
     }
 

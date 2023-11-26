@@ -24,7 +24,7 @@ public class ComponentDatabase {
                 "tipocomponente.nome as tipocomponente,\n" +
                 "unidademedida.nome as unidadedemedida\n" +
                 " FROM maquinacomponente join tipocomponente on maquinacomponente.fktipocomponente = tipocomponente.id join unidademedida on tipocomponente.fkunidademedida = unidademedida.id where maquinacomponente.fkMaquina = ?";
-        PreparedStatement statement = connMySql.prepareStatement(query);
+        PreparedStatement statement = connSqlServer.prepareStatement(query);
 
         try {
             statement.setString(1, idMachine.toString());
@@ -81,10 +81,14 @@ public class ComponentDatabase {
 
     }
 
-    public void updateOne(ComponentEntity component) {
+    public static void updateOne(ComponentEntity component) {
+        HashMap<Connection, String> queries = new HashMap<>();
+        queries.put(connMySql, "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?");
+        queries.put(connSqlServer, "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?;");
+
         String query = "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?";
         try {
-            PreparedStatement statement = this.connMySql.prepareStatement(query);
+            PreparedStatement statement = connMySql.prepareStatement(query);
             statement.setString(1, component.getModel());
             statement.setString(2, component.getDescription());
             statement.setDouble(3, component.getCapacity());

@@ -68,7 +68,7 @@ public class Monitor {
         this.machine.setVendor(sys.getFabricante());
         this.machine.setArchitecture(sys.getArquitetura());
         this.machine.setMacAddress(this._looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
-        this.machine.setEstablishmentId(_config.getEstablishmentId());
+        this.machine.setEstablishmentId(Config.establishmentId);
 
         Processador cpu = this._looca.getProcessador();
         String cpuDescription = String.format("%s, Núcleos: %d, Threads: %d", cpu.getMicroarquitetura(), cpu.getNumeroCpusFisicas(), cpu.getNumeroCpusLogicas());
@@ -166,14 +166,14 @@ public class Monitor {
 
         componentsDBOnly.forEach(entity -> {
             entity.setId(UUID.randomUUID());
-            var component = ComponentMapper.toComponentEntity(entity, _config.getEstablishmentId());
+            var component = ComponentMapper.toComponentEntity(entity, Config.establishmentId);
             component.setIsActive(false);
             repository.registerModified(component);
         });
 
         componentsLocalOnly.forEach(entity -> {
             entity.setId(UUID.randomUUID());
-            var component = ComponentMapper.toComponentEntity(entity, _config.getEstablishmentId());
+            var component = ComponentMapper.toComponentEntity(entity, Config.establishmentId);
             component.setIsActive(true);
             repository.registerNew(component);
         });
@@ -203,12 +203,11 @@ public class Monitor {
                 .getComponents()
                 .forEach(component -> {
                     var metric = component.getMetric();
-                    Logger.logInfo(String.format("Inserting metric %s on component %s", metric.getId(), component.getId()));
                     metricRepository.registerNew(metric);
-                    NotificationHandler.handleNotification(component, establishment.getId(), machine);
+                    metricRepository.commit();
+                    NotificationHandler.handleNotification(component, Config.establishmentId , machine);
                 });
 
-        metricRepository.commit();
     }
 
 

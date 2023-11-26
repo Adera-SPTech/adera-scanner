@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Getter@Setter
 public class AlertEntity {
     private UUID id;
-    private Date date;
+    private LocalDateTime date;
     private String level;
     private String description;
     private UUID metricId;

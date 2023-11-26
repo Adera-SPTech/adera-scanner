@@ -1,6 +1,8 @@
 package com.adera.component;
 
+import com.adera.commonTypes.Machine;
 import com.adera.database.AlertDatabase;
+import com.adera.database.OptionDatabase;
 import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
 import com.adera.entities.OptionsEntity;
@@ -10,6 +12,7 @@ import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.util.Conversor;
 import lombok.AllArgsConstructor;
 
+import javax.crypto.Mac;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -26,40 +29,55 @@ public class MemoryComponent extends Component{
 
     @Override
     public MetricEntity getMetric() {
+        var l = new Looca();
+        var total = l.getMemoria().getTotal();
+        var uso = l.getMemoria().getEmUso();
+
+        int porcentagemUso = (int) (((double) uso / total) * 100);
+
         return new MetricEntity(
                 UUID.randomUUID(),
+                porcentagemUso,
                 LocalDateTime.now(),
-                Conversor.formatarBytes(new Looca().getMemoria().getEmUso()),
                 false,
                 getId()
         );
     }
 
     @Override
-    public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
+    public AlertEntity getAlert(List<MetricEntity> recentMetrics, UUID establishmentId, Machine machine) {
+        var options = OptionDatabase.getOptionsByEstablishmentId(establishmentId);
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getRamAttention() &&
-                !m.getAlerted()))) {
+        if (checkIfRecentMetricsAreAboveTheAttention(recentMetrics, options)) {
             level = "Atenção";
-            description = String.format("A Ram da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getRamAttention() &&
-                    !m.getAlerted()))){
+            description = String.format("A Ram da Maquina %s ultrapassou o limite de Atenção", machine.getMachineName());
+            if (checkIfRecentMetricsAreAboveTheLimit(recentMetrics, options)){
                 level = "Crítico";
-                description = String.format("A Ram da Maquina %s ultrapassou o limite Critico");
+                description = String.format("A Ram da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            var alert = new AlertEntity(
+                    UUID.randomUUID(),
+                    LocalDateTime.now(),
+                    level,
+                    description,
+                    recentMetrics.get(0).id,
+                    false
+            );
+            AlertDatabase.insertOne(alert);
+
+            return alert;
         }
+        return null;
+    }
 
-        var alert = new AlertEntity(
-                UUID.randomUUID(),
-                new Date(),
-                level,
-                description,
-                recentMetrics.get(0).id,
-                false
-        );
-        AlertDatabase.insertOne(alert);
+    @Override
+    protected boolean checkIfRecentMetricsAreAboveTheLimit(List<MetricEntity> recentMetrics, OptionsEntity options) {
+        return recentMetrics.stream().allMatch(metric -> metric.getMeasurement() >= options.getRamLimit() && !metric.getAlerted());
+    }
 
-        return alert;
+    @Override
+    protected boolean checkIfRecentMetricsAreAboveTheAttention(List<MetricEntity> recentMetrics, OptionsEntity options) {
+        return recentMetrics.stream().allMatch(metric -> metric.getMeasurement() >= options.getRamAttention() && !metric.getAlerted());
     }
 }

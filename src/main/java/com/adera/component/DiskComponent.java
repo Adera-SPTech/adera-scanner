@@ -1,6 +1,8 @@
 package com.adera.component;
 
+import com.adera.commonTypes.Machine;
 import com.adera.database.AlertDatabase;
+import com.adera.database.OptionDatabase;
 import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
 import com.adera.entities.OptionsEntity;
@@ -38,38 +40,47 @@ public class DiskComponent extends Component{
 
         return new MetricEntity(
                 UUID.randomUUID(),
+                (int) Math.round(percentageUsing),
                 LocalDateTime.now(),
-                String.format("%.0f%%", percentageUsing),
                 false,
                 getId()
         );
     }
 
     @Override
-    public AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options) {
+    public AlertEntity getAlert(List<MetricEntity> recentMetrics, UUID establishmentId, Machine machine) {
+        var options = OptionDatabase.getOptionsByEstablishmentId(establishmentId);
         String  level = null;
         String  description = null;
-        if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getDiskAttention() &&
-                !m.getAlerted()))) {
+        if (checkIfRecentMetricsAreAboveTheAttention(recentMetrics, options)) {
             level = "Atenção";
-            description = String.format("O Disco da Maquina %s ultrapassou o limite de Atenção");
-            if (recentMetrics.stream().allMatch(m -> (Integer.parseInt(m.getMeasurement()) >= options.getDiskAttention() &&
-                    !m.getAlerted()))){
+            description = String.format("O Disco da Maquina %s ultrapassou o limite de Atenção", machine.getMachineName());
+            if (checkIfRecentMetricsAreAboveTheLimit(recentMetrics, options)){
                 level = "Crítico";
-                description = String.format("O Disco da Maquina %s ultrapassou o limite Critico");
+                description = String.format("O Disco da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            var alert = new AlertEntity(
+                    UUID.randomUUID(),
+                    LocalDateTime.now(),
+                    level,
+                    description,
+                    recentMetrics.get(0).id,
+                    false
+            );
+            AlertDatabase.insertOne(alert);
+
+            return alert;
         }
+        return null;
+    }
 
-        var alert = new AlertEntity(
-                UUID.randomUUID(),
-                new Date(),
-                level,
-                description,
-                recentMetrics.get(0).id,
-                false
-        );
-        AlertDatabase.insertOne(alert);
+    @Override
+    protected boolean checkIfRecentMetricsAreAboveTheLimit(List<MetricEntity> recentMetrics, OptionsEntity options) {
+        return recentMetrics.stream().allMatch(metric -> metric.getMeasurement() >= options.getDiskLimit() && !metric.getAlerted());
+    }
 
-        return alert;
+    @Override
+    protected boolean checkIfRecentMetricsAreAboveTheAttention(List<MetricEntity> recentMetrics, OptionsEntity options) {
+        return recentMetrics.stream().allMatch(metric -> metric.getMeasurement() >= options.getDiskAttention() && !metric.getAlerted());
     }
 }

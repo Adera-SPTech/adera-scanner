@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         Logger.logInfo("Iniciando aplicação");
 
-        var config = new Config();
+        var cfg = new Config();
 
         ArrayList<String> errList = new ArrayList<String>();
 
@@ -37,7 +37,7 @@ public class Main {
                                                                                                                                                     \s""");
 
         do {
-            Config cfg = tryReadCfgFile();
+            cfg = tryReadCfgFile();
 
             if(cfg == null) {
                 createCfgFile();
@@ -51,12 +51,12 @@ public class Main {
             errList.clear();
 
             assert cfg != null;
-            if(user == null && cfg.getUserId() != null) {
-                user = UserDatabase.getOneById(cfg.getUserId());
+            if(user == null && Config.userId != null) {
+                user = UserDatabase.getOneById(Config.userId);
                 if (user != null) {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
-                    config.setEstablishmentId(establishment.getId());
+                    Config.establishmentId = establishment.getId();
                     logged = true;
                 }
             } else {
@@ -68,14 +68,14 @@ public class Main {
                 } else {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
-                    config.setEstablishmentId(establishment.getId());
+                    Config.establishmentId = establishment.getId();
                     logged = true;
                 }
             }
 
         } while (!logged);
 
-        var monitor = new Monitor(config);
+        var monitor = new Monitor(cfg);
 
         Runnable monitorLoop = monitor::insertMetrics;
 
@@ -83,7 +83,7 @@ public class Main {
         monitorScheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
 
         Runnable commandLoop = () -> {
-            var listener = new CommandListener(config.getEstablishmentId(), monitor.getMachine());
+            var listener = new CommandListener(Config.establishmentId, monitor.getMachine());
             listener.fetchCommands();
             listener.runCommands();
             listener.watch();
@@ -111,7 +111,7 @@ public class Main {
             Scanner myReader = new Scanner(cfgFile);
             Config cfg = new Config();
             while (myReader.hasNextLine()) {
-                cfg.setUserId(myReader.nextLine());
+                Config.userId = myReader.nextLine();
             }
             return cfg;
         } catch(FileNotFoundException e) {
