@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.UUID;
 
     import lombok.AllArgsConstructor;
@@ -17,13 +18,24 @@ import java.util.UUID;
     @AllArgsConstructor
 public class OptionsEntity {
 
+        public OptionsEntity() {
+        }
+
         private Integer id;
 
         private Boolean autoRestart;
 
         private Boolean periodicalRestart;
 
-        private Time restartTime;
+        private LocalTime restartTime;
+
+        private Integer cpuAttention;
+
+        private Integer ramAttention;
+
+        private Integer diskAttention;
+
+        private Integer latencyAttention;
 
         private Integer cpuLimit;
 

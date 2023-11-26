@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mysql" uuid="832020d5-b6d9-4a2a-a037-874de269089a">
+    <data-source source="LOCAL" name="adera@localhost" uuid="9b9fef60-d64e-48df-b2a6-f51a8bda4257">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/adera</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="@localhost" uuid="0494f9de-0085-495f-9d7b-be9e5d1f83b5">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="adera@ec2-100-25-245-5.compute-1.amazonaws.com" uuid="7cb216a6-7df8-4f78-82a6-a54f18248912">
+      <driver-ref>sqlserver.ms</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://ec2-100-25-245-5.compute-1.amazonaws.com:1433;databaseName=adera;encrypt=false;trustServerCertificate=true;</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

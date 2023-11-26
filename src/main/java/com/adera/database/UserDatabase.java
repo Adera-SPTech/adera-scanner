@@ -1,7 +1,7 @@
 package com.adera.database;
 
 import com.adera.entities.UserEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class UserDatabase {
-    private static final Connection conn = ConnectionMySQL.getConnection();
+    private static final Connection conn = ConnectionSQLServer.getConnection();
 
     public void insertOne(UserEntity user) throws SQLException {
         assert conn != null;
@@ -27,7 +27,7 @@ public class UserDatabase {
             statement.execute();
 
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return;
         }
     }
@@ -53,7 +53,7 @@ public class UserDatabase {
             }
             return null;
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return null;
         }
     }
@@ -80,7 +80,7 @@ public class UserDatabase {
             }
             return null;
         } catch (SQLException e) {
-            MySQLExtension.handleException(e);
+            SQLExtension.handleException(e);
             return null;
         }
     }

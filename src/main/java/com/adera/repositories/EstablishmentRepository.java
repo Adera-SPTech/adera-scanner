@@ -2,14 +2,13 @@ package com.adera.repositories;
 
 import com.adera.database.EstablishmentDatabase;
 import com.adera.entities.EstablishmentEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -53,7 +52,7 @@ public class EstablishmentRepository implements IUnitOfWork<EstablishmentEntity>
             try {
                 EstablishmentDatabase.insertOne(establishment);
             } catch (SQLException e) {
-                MySQLExtension.handleException(e);
+                SQLExtension.handleException(e);
             }
         }
     }

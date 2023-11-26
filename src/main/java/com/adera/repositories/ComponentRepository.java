@@ -1,16 +1,12 @@
 package com.adera.repositories;
 
 import com.adera.database.ComponentDatabase;
-import com.adera.database.ConnectionMySQL;
 import com.adera.entities.ComponentEntity;
-import com.adera.entities.EstablishmentEntity;
-import com.adera.extensions.MySQLExtension;
+import com.adera.extensions.SQLExtension;
 import lombok.RequiredArgsConstructor;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -61,7 +57,7 @@ public class ComponentRepository implements IUnitOfWork<ComponentEntity>{
             try {
                 database.insertOne(component);
             } catch (SQLException e) {
-                MySQLExtension.handleException(e);
+                SQLExtension.handleException(e);
             }
         }
     }

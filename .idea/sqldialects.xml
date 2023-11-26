@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/adera/database/ComponentDatabase.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/adera/database/EstablishmentDatabase.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/adera/database/MachineDatabase.java" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/adera/database/UserDatabase.java" dialect="GenericSQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>
