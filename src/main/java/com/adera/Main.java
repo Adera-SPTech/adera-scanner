@@ -5,9 +5,6 @@ import com.adera.database.EstablishmentDatabase;
 import com.adera.database.UserDatabase;
 import com.adera.entities.EstablishmentEntity;
 import com.adera.entities.UserEntity;
-import com.adera.repositories.EstablishmentRepository;
-import com.adera.repositories.UserRepository;
-import com.github.britooo.looca.api.core.Looca;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +13,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -26,7 +22,9 @@ public class Main {
     private static EstablishmentEntity establishment = null;
     private static boolean logged = false;
     public static void main(String[] args) throws SQLException, FileNotFoundException {
-        var config = new Config();
+        Logger.logInfo("Iniciando aplicação");
+
+        var cfg = new Config();
 
         ArrayList<String> errList = new ArrayList<String>();
 
@@ -39,7 +37,7 @@ public class Main {
                                                                                                                                                     \s""");
 
         do {
-            Config cfg = tryReadCfgFile();
+            cfg = tryReadCfgFile();
 
             if(cfg == null) {
                 createCfgFile();
@@ -53,17 +51,15 @@ public class Main {
             errList.clear();
 
             assert cfg != null;
-            if(user == null && cfg.getUserId() != null) {
-                System.out.println("A1");
-                user = UserDatabase.getOneById(cfg.getUserId());
+            if(user == null && Config.userId != null) {
+                user = UserDatabase.getOneById(Config.userId);
                 if (user != null) {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
-                    config.setEstablishmentId(establishment.getId());
+                    Config.establishmentId = establishment.getId();
                     logged = true;
                 }
             } else {
-                System.out.println("A2");
                 user = requestEmailAndPassword();
 
                 if(user == null) {
@@ -72,19 +68,29 @@ public class Main {
                 } else {
                     writeToCfgFile(user.getId().toString());
                     establishment = EstablishmentDatabase.getOneById(user.getEstablishmentId().toString());
-                    config.setEstablishmentId(establishment.getId());
+                    Config.establishmentId = establishment.getId();
                     logged = true;
                 }
             }
 
         } while (!logged);
 
-        var monitor = new Monitor(config);
+        var monitor = new Monitor(cfg);
 
         Runnable monitorLoop = monitor::insertMetrics;
 
-        var scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
+        var monitorScheduler = Executors.newScheduledThreadPool(1);
+        monitorScheduler.scheduleAtFixedRate(monitorLoop, 0, 2, TimeUnit.SECONDS);
+
+        Runnable commandLoop = () -> {
+            var listener = new CommandListener(Config.establishmentId, monitor.getMachine());
+            listener.fetchCommands();
+            listener.runCommands();
+            listener.watch();
+        };
+
+        var commandScheduler = Executors.newScheduledThreadPool(1);
+        commandScheduler.scheduleAtFixedRate(commandLoop, 0, 10, TimeUnit.SECONDS);
     }
 
     public static UserEntity requestEmailAndPassword() throws SQLException {
@@ -105,7 +111,7 @@ public class Main {
             Scanner myReader = new Scanner(cfgFile);
             Config cfg = new Config();
             while (myReader.hasNextLine()) {
-                cfg.setUserId(myReader.nextLine());
+                Config.userId = myReader.nextLine();
             }
             return cfg;
         } catch(FileNotFoundException e) {

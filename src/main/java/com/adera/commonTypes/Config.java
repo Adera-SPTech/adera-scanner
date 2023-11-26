@@ -1,11 +1,14 @@
 package com.adera.commonTypes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
-public final class Config {
-    private String userId;
+public class Config {
+    public static String userId;
 
-    private UUID establishmentId;
+    public static UUID establishmentId;
 
     @Override
     public String toString() {
@@ -13,21 +16,5 @@ public final class Config {
                 "userId='" + userId + '\'' +
                 ", establishmentId='" + establishmentId + '\'' +
                 '}';
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public UUID getEstablishmentId() {
-        return establishmentId;
-    }
-
-    public void setEstablishmentId(UUID establishmentId) {
-        this.establishmentId = establishmentId;
     }
 }

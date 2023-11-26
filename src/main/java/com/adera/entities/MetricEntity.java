@@ -14,9 +14,14 @@ public class MetricEntity {
 
     public UUID id;
 
+    public Integer measurement;
+
     public LocalDateTime date;
 
-    public String measurement;
+    public Boolean alerted;
 
     public UUID fkComponent;
+
+
+
 }

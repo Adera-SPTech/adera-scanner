@@ -2,9 +2,6 @@
   <artifact type="jar" name="adera-scanner:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/adera_scanner_jar</output-path>
     <root id="archive" name="adera-scanner.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="adera-scanner" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/1.7.30/slf4j-simple-1.7.30.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar" path-in-jar="/" />
