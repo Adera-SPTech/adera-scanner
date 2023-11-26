@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -70,15 +71,16 @@ public class CommandListener {
     }
 
     public void watch() {
+        var options = OptionDatabase.getOptionsByEstablishmentId(_establishemntId);
         var isWindows = _machine.getOs().equals("Windows");
-        var restartTime = _options.getRestartTime();
+        var restartTime = options.getRestartTime().truncatedTo(ChronoUnit.MINUTES);
         Runtime runtime = Runtime.getRuntime();
 
-        var now = LocalTime.now();
+        var now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 
         try {
             var restartCommand = isWindows ? CommandEnum.RESTART.getWindowsCommand() : CommandEnum.RESTART.getLinuxCommand();
-            if((now == restartTime && _options.getPeriodicalRestart()) || (isCrashed() && _options.getAutoRestart())) {
+            if((now.equals(restartTime) && options.getPeriodicalRestart()) || (isCrashed() && options.getAutoRestart())) {
                 runtime.exec(restartCommand);
             }
         } catch (IOException e) {

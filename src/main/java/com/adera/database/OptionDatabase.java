@@ -30,7 +30,7 @@ public class OptionDatabase {
                             result.getInt(1),
                             result.getBoolean(2),
                             result.getBoolean(3),
-                            result.getTime(4),
+                            result.getTime(4).toLocalTime(),
                             result.getInt(5),
                             result.getInt(6),
                             result.getInt(7),

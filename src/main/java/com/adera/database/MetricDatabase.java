@@ -42,30 +42,34 @@ public class MetricDatabase {
                 statement.execute();
 
                 ResultSet result = statement.getResultSet();
-
-                Logger.logInfo(String.format("Inserindo metrica %s no banco %s às %s", metric.getId(), conn == connMySql ? "MySQL" : "SQL Server", metric.getDate().format(pattern)));
             } catch(SQLException e) { SQLExtension.handleException(e); }
         });
 
     }
 
     public static void updateOne(MetricEntity metric) {
-        String query = "UPDATE metrica SET alertou = ? WHERE id = ?";
-        try {
-            PreparedStatement statement = connSqlServer.prepareStatement(query);
-            statement.setString(1, metric.getAlerted().toString());
-            statement.setString(2, metric.getId().toString());
-            statement.execute();
-        } catch (SQLException e) {
-            SQLExtension.handleException(e);
-        }
+        HashMap<Connection, String> queries = new HashMap<>();
+        queries.put(connMySql, "UPDATE metrica SET alertado = ? WHERE id = ?");
+        queries.put(connSqlServer, "UPDATE metrica SET alertado = ? WHERE id = ?");
+
+        queries.forEach(((conn, query) -> {
+            try {
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setBoolean(1, metric.getAlerted());
+                statement.setString(2, metric.getId().toString());
+                statement.execute();
+            } catch (SQLException e) {
+                SQLExtension.handleException(e);
+            }
+        }));
+
     }
 
         @SneakyThrows
         public static List<MetricEntity> getRecentMetricsByComponentId(UUID id){
             try {
-                String query = "SELECT * FROM recent_metrics where MaquinaComponenteId = ?";
-                PreparedStatement statement = connMySql.prepareStatement(query);
+                String query = "SELECT * FROM recent_metrics where MaquinaComponenteId = ? ORDER BY data DESC";
+                PreparedStatement statement = connSqlServer.prepareStatement(query);
 
                 statement.setString(1, id.toString());
                 statement.execute();
@@ -76,8 +80,8 @@ public class MetricDatabase {
                 while (result.next()) {
                     MetricEntity metric = new MetricEntity(
                             UUID.fromString(result.getString(1)),
-                            result.getTimestamp(2).toLocalDateTime(),
-                            result.getInt(3),
+                            result.getInt(2),
+                            result.getTimestamp(3).toLocalDateTime(),
                             result.getBoolean(4),
                             UUID.fromString(result.getString(5))
                     );

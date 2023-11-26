@@ -44,7 +44,9 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     public void commit() {
         if(this.context.get("INSERT") != null) {
             this.commitInserted();
-        } else if (this.context.get("MODIFY") != null) {
+        }
+
+        if (this.context.get("MODIFY") != null) {
             this.commitModified();
         }
 

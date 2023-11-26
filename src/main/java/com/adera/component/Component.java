@@ -1,5 +1,6 @@
 package com.adera.component;
 
+import com.adera.commonTypes.Machine;
 import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
 import com.adera.entities.OptionsEntity;
@@ -53,7 +54,10 @@ public abstract class Component {
         return Objects.equals(model, component.model) && Objects.equals(description, component.description) && Objects.equals(capacity, component.capacity) && type == component.type && metricUnit == component.metricUnit;
     }
 
-    public abstract AlertEntity getAlert(List<MetricEntity> recentMetrics, OptionsEntity options);
+    public abstract AlertEntity getAlert(List<MetricEntity> recentMetrics, UUID establishmentId, Machine machine);
+
+    protected abstract boolean checkIfRecentMetricsAreAboveTheLimit(List<MetricEntity> recentMetrics, OptionsEntity options);
+    protected abstract boolean checkIfRecentMetricsAreAboveTheAttention(List<MetricEntity> recentMetrics, OptionsEntity options);
 
     @Override
     public int hashCode() {

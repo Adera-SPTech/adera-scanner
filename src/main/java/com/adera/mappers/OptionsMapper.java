@@ -9,7 +9,7 @@ public class OptionsMapper {
                 self.getId(),
                 self.getAutoRestart(),
                 self.getPeriodicalRestart(),
-                self.getRestartTime().toLocalTime(),
+                self.getRestartTime(),
                 self.getCpuAttention(),
                 self.getRamAttention(),
                 self.getDiskAttention(),
