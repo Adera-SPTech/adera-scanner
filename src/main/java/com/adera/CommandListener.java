@@ -78,7 +78,9 @@ public class CommandListener {
         var restartTime = options.getRestartTime().truncatedTo(ChronoUnit.MINUTES);
         Runtime runtime = Runtime.getRuntime();
 
-        var now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toLocalDateTime().truncatedTo(ChronoUnit.MINUTES);
+        var zonedNow = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+
+        var now = LocalTime.of(zonedNow.getHour(), zonedNow.getMinute());
 
         Logger.logInfo(String.format("Hora atual java: %s, Hora reinicio SQL Server: %s, Restart Periodico: %b", now.toString(), options.getRestartTime().toString(), options.getPeriodicalRestart()));
 
