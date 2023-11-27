@@ -26,6 +26,7 @@ import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.github.britooo.looca.api.util.Conversor;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import oshi.SystemInfo;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -129,6 +130,7 @@ public class Monitor {
 
     private Boolean checkIfNewMachine() {
         Logger.logInfo("MAC ADDRESS: " + _looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
+        Logger.logInfo("ID: " + new SystemInfo().getHardware().getComputerSystem().getHardwareUUID());
         var entity = MachineDatabase.getMachineByMacAddress(_looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
         return entity == null;
     }
