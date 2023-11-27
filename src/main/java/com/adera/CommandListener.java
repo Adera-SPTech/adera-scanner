@@ -15,6 +15,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Stream;
@@ -76,7 +78,7 @@ public class CommandListener {
         var restartTime = options.getRestartTime().truncatedTo(ChronoUnit.MINUTES);
         Runtime runtime = Runtime.getRuntime();
 
-        var now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+        var now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toLocalDateTime().truncatedTo(ChronoUnit.MINUTES);
 
         try {
             var restartCommand = isWindows ? CommandEnum.RESTART.getWindowsCommand() : CommandEnum.RESTART.getLinuxCommand();
