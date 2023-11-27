@@ -6,7 +6,6 @@ import com.adera.commonTypes.Establishment;
 import com.adera.commonTypes.Machine;
 import com.adera.database.ComponentDatabase;
 import com.adera.database.MachineDatabase;
-import com.adera.entities.MetricEntity;
 import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import com.adera.mappers.ComponentMapper;
@@ -17,7 +16,6 @@ import com.adera.repositories.MetricRepository;
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.discos.Disco;
 import com.github.britooo.looca.api.group.discos.DiscoGrupo;
-import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.rede.RedeInterface;
@@ -28,13 +26,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import oshi.SystemInfo;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class Monitor {
@@ -63,7 +56,7 @@ public class Monitor {
 
         Sistema sys = this._looca.getSistema();
         this.machine = new Machine();
-        this.machine.setId(UUID.randomUUID());
+        this.machine.setId(UUID.fromString(new SystemInfo().getHardware().getComputerSystem().getHardwareUUID()));
         this.machine.setMachineName(this._looca.getRede().getParametros().getHostName());
         this.machine.setOs(sys.getSistemaOperacional());
         this.machine.setVendor(sys.getFabricante());
@@ -120,7 +113,7 @@ public class Monitor {
 
     @SneakyThrows
     private void buildMachineFromDatabase() {
-        var machineEntity = MachineDatabase.getMachineByMacAddress(_looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
+        var machineEntity = MachineDatabase.getMachineById(machine.getId());
 
         var componentsInDatabase = ComponentDatabase.getComponentsByMachineId(machineEntity.getId());
         var components = new ArrayList<Component>(componentsInDatabase.stream().map(ComponentMapper::toComponent).toList());
@@ -131,13 +124,13 @@ public class Monitor {
     private Boolean checkIfNewMachine() {
         Logger.logInfo("MAC ADDRESS: " + _looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
         Logger.logInfo("ID: " + new SystemInfo().getHardware().getComputerSystem().getHardwareUUID());
-        var entity = MachineDatabase.getMachineByMacAddress(_looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
+        var entity = MachineDatabase.getMachineById(machine.getId());
         return entity == null;
     }
 
     @SneakyThrows
     private Boolean hasSameComponents() {
-        machine.setId(MachineDatabase.getMachineByMacAddress(this._looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac()).getId());
+        machine.setId(MachineDatabase.getMachineById(machine.getId()).getId());
         var componentsInDatabase = ComponentDatabase.getComponentsByMachineId(machine.getId());
         var components = new ArrayList<Component>(componentsInDatabase.stream().map(ComponentMapper::toComponent).toList());
 

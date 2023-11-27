@@ -15,14 +15,14 @@ public class MachineDatabase {
     private static final Connection connMySql = ConnectionMySQL.getConnection();
     private static final Connection connSqlServer = ConnectionSQLServer.getConnection();
 
-    public static MachineEntity getMachineByMacAddress(String macAddress) {
-        String query = "select * from maquina where enderecoMac = ?";
+    public static MachineEntity getMachineById(UUID id) {
+        String query = "select * from maquina where id = ?";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             assert connSqlServer != null;
             assert connMySql != null;
             PreparedStatement statement = connSqlServer.prepareStatement(query);
-            statement.setString(1, macAddress);
+            statement.setString(1, id.toString());
             statement.execute();
             ResultSet result = statement.getResultSet();
 
