@@ -80,9 +80,11 @@ public class CommandListener {
 
         var now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toLocalDateTime().truncatedTo(ChronoUnit.MINUTES);
 
+        Logger.logInfo(String.format("Hora atual java: %s, Hora reinicio SQL Server: %s, Restart Periodico: %b", now.toString(), options.getRestartTime().toString(), options.getPeriodicalRestart()));
+
         try {
             var restartCommand = isWindows ? CommandEnum.RESTART.getWindowsCommand() : CommandEnum.RESTART.getLinuxCommand();
-            if((now.equals(restartTime) && options.getPeriodicalRestart()) || (isCrashed() && options.getAutoRestart())) {
+            if((now.equals(restartTime.truncatedTo(ChronoUnit.MINUTES)) && options.getPeriodicalRestart()) || (isCrashed() && options.getAutoRestart())) {
                 runtime.exec(restartCommand);
             }
         } catch (IOException e) {
