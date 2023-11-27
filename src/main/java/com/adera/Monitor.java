@@ -128,6 +128,7 @@ public class Monitor {
     }
 
     private Boolean checkIfNewMachine() {
+        Logger.logInfo("MAC ADDRESS: " + _looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
         var entity = MachineDatabase.getMachineByMacAddress(_looca.getRede().getGrupoDeInterfaces().getInterfaces().get(0).getEnderecoMac());
         return entity == null;
     }
