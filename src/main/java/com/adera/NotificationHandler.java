@@ -21,7 +21,7 @@ import java.util.UUID;
 
 public class NotificationHandler {
     private static HttpClient client = HttpClient.newHttpClient();
-    private static final String URL = "https://hooks.slack.com/services/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";
+    private static final String URL = "https://hooks.slack.com/services/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";
 
     public static void handleNotification(Component component, UUID establismentId, Machine machine) {
         var repo = new MetricRepository();
