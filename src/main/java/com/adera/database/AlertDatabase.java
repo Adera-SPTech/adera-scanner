@@ -34,7 +34,7 @@ public class AlertDatabase {
                 statement.execute();
 
                 ResultSet result = statement.getResultSet();
-            } catch(SQLException e) { SQLExtension.handleException(e); }
+            } catch(SQLException e) { SQLExtension.handleException(e, conn); }
         });
     }
 }

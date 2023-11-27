@@ -21,7 +21,7 @@ public class ConnectionMySQL {
             }
             return conn;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return null;
         }
     }

@@ -50,7 +50,7 @@ public class ComponentDatabase {
 
             return list;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, connSqlServer);
             return new ArrayList<>();
         }
 
@@ -76,7 +76,7 @@ public class ComponentDatabase {
                 statement.execute();
 
                 ResultSet result = statement.getResultSet();
-            } catch(SQLException e) { SQLExtension.handleException(e); }
+            } catch(SQLException e) { SQLExtension.handleException(e, conn); }
         });
 
     }
@@ -87,17 +87,20 @@ public class ComponentDatabase {
         queries.put(connSqlServer, "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?;");
 
         String query = "UPDATE maquinacomponente SET modelo = ?, descricao = ?, capacidade = ?, ativo = ? WHERE id = ?";
-        try {
-            PreparedStatement statement = connMySql.prepareStatement(query);
-            statement.setString(1, component.getModel());
-            statement.setString(2, component.getDescription());
-            statement.setDouble(3, component.getCapacity());
-            statement.setBoolean(4, component.getIsActive());
-            statement.setString(5, component.getId().toString());
 
-            statement.execute();
-        } catch (SQLException e) {
-            SQLExtension.handleException(e);
-        }
+        queries.forEach((connection, s) -> {
+            try {
+                PreparedStatement statement = connection.prepareStatement(s);
+                statement.setString(1, component.getModel());
+                statement.setString(2, component.getDescription());
+                statement.setDouble(3, component.getCapacity());
+                statement.setBoolean(4, component.getIsActive());
+                statement.setString(5, component.getId().toString());
+
+                statement.execute();
+            } catch (SQLException e) {
+                SQLExtension.handleException(e, connection);
+            }
+        });
     }
 }

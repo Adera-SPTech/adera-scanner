@@ -21,7 +21,7 @@ public class CommandDatabase {
         String[] queries = {"SELECT * FROM comando WHERE fkMaquina = ? AND rodou = false", "SELECT * FROM comando WHERE fkMaquina = ? AND rodou = 0"};
         try {
             assert connMySql != null;
-            var statement = connMySql.prepareStatement(queries[1]);
+            var statement = connSqlServer.prepareStatement(queries[1]);
             statement.setString(1, machineId.toString());
 
             var result = statement.executeQuery();
@@ -37,7 +37,7 @@ public class CommandDatabase {
             }
 
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, connSqlServer);
         }
         return commands;
     }
@@ -57,7 +57,7 @@ public class CommandDatabase {
 
                 statement.executeUpdate();
             } catch(SQLException e) {
-                SQLExtension.handleException(e);
+                SQLExtension.handleException(e, connection);
             }
         });
     }

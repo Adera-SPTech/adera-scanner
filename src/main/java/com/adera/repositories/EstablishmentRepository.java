@@ -49,11 +49,9 @@ public class EstablishmentRepository implements IUnitOfWork<EstablishmentEntity>
     private void commitInsert() {
         ArrayList<EstablishmentEntity> ecsToBeInserted = context.get("INSERT");
         for(var establishment : ecsToBeInserted) {
-            try {
-                EstablishmentDatabase.insertOne(establishment);
-            } catch (SQLException e) {
-                SQLExtension.handleException(e);
-            }
+
+            EstablishmentDatabase.insertOne(establishment);
+
         }
     }
 

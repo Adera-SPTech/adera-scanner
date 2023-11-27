@@ -44,7 +44,7 @@ public class OptionDatabase {
                 }
                 return options;
             } catch (SQLException e) {
-                SQLExtension.handleException(e);
+                SQLExtension.handleException(e, conn);
                 return null;
             }
         }

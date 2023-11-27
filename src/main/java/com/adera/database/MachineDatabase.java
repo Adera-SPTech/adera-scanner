@@ -19,8 +19,6 @@ public class MachineDatabase {
         String query = "select * from maquina where id = ?";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            assert connSqlServer != null;
-            assert connMySql != null;
             PreparedStatement statement = connSqlServer.prepareStatement(query);
             statement.setString(1, id.toString());
             statement.execute();
@@ -39,7 +37,7 @@ public class MachineDatabase {
             }
             return null;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, connSqlServer);
             return null;
         } catch (ClassNotFoundException e) {
             Logger.logError("SQL Server Driver not found", e);
@@ -47,7 +45,7 @@ public class MachineDatabase {
         }
     }
 
-    public static void insertOne(MachineEntity machine) throws SQLException {
+    public static void insertOne(MachineEntity machine) {
 
         HashMap<Connection, String> queries = new HashMap<>();
         queries.put(connMySql, "INSERT INTO maquina VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -67,7 +65,7 @@ public class MachineDatabase {
                 statement.execute();
 
             } catch (SQLException e) {
-                SQLExtension.handleException(e);
+                SQLExtension.handleException(e, conn);
                 return;
             }
         });

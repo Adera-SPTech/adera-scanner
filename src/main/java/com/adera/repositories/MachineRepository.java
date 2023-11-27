@@ -52,11 +52,9 @@ public class MachineRepository implements IUnitOfWork<MachineEntity> {
     private void commitInserted() {
         ArrayList<MachineEntity> machinesToBeInserted = context.get("INSERT");
         for(MachineEntity machine : machinesToBeInserted) {
-            try {
-                MachineDatabase.insertOne(machine);
-            } catch(SQLException e) {
-                SQLExtension.handleException(e);
-            }
+
+            MachineDatabase.insertOne(machine);
+
         }
     }
 }

@@ -27,23 +27,23 @@ public class EstablishmentDatabase {
             }
             return ec;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return null;
         }
     }
 
-    public static ResultSet insertOne(EstablishmentEntity market) throws SQLException {
+    public static ResultSet insertOne(EstablishmentEntity market) {
         assert conn != null;
         String query = "INSERT INTO estabelecimento VALUES (?, ?, ?)";
-        PreparedStatement statement = conn.prepareStatement(query);
         try {
+            PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, market.getId().toString());
             statement.setString(2, market.getFantasyName());
             statement.setString(3, market.getCnpj());
             statement.execute();
             return statement.getResultSet();
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return null;
         }
     }

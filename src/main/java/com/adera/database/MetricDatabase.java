@@ -21,13 +21,12 @@ public class MetricDatabase {
     private static final Connection connMySql = ConnectionMySQL.getConnection();
     private static final Connection connSqlServer = ConnectionSQLServer.getConnection();
 
-    public static void insertOne(MetricEntity metric) throws SQLException {
+    public static void insertOne(MetricEntity metric) {
         HashMap<Connection, String> queries = new HashMap<>();
         queries.put(connMySql, "INSERT INTO metrica VALUES (?, ?, ?, ?, ?)");
         queries.put(connSqlServer, "INSERT INTO metrica VALUES (?, ?, ?, ?, ?)");
 
         queries.forEach((conn, query) -> {
-
             try {
                 var pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:s");
                 PreparedStatement statement = conn.prepareStatement(query);
@@ -43,7 +42,7 @@ public class MetricDatabase {
                 statement.execute();
 
                 ResultSet result = statement.getResultSet();
-            } catch(SQLException e) { SQLExtension.handleException(e); }
+            } catch(SQLException e) { SQLExtension.handleException(e, conn); }
         });
 
     }
@@ -60,7 +59,7 @@ public class MetricDatabase {
                 statement.setString(2, metric.getId().toString());
                 statement.execute();
             } catch (SQLException e) {
-                SQLExtension.handleException(e);
+                SQLExtension.handleException(e, conn);
             }
         }));
 
@@ -89,7 +88,7 @@ public class MetricDatabase {
             }
             return recentMetrics;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, connSqlServer);
             return new ArrayList<>();
         }
     }

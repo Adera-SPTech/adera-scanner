@@ -2,26 +2,24 @@ package com.adera;
 
 import com.adera.commonTypes.Machine;
 import com.adera.component.*;
-import com.adera.database.AlertDatabase;
 import com.adera.database.MetricDatabase;
-import com.adera.database.OptionDatabase;
-import com.adera.entities.AlertEntity;
 import com.adera.entities.MetricEntity;
 import com.adera.repositories.MetricRepository;
 import lombok.SneakyThrows;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
 public class NotificationHandler {
     private static HttpClient client = HttpClient.newHttpClient();
-    private static final String URL = "https://hooks.slack.com/services/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";
+    private static final String urlEncoded = "aHR0cHM6Ly9ob29rcy5zbGFjay5jb20vc2VydmljZXMvVDA2Nlc3TTNOUUgvQjA2ODBVQ1NHU1UvYWlmY1lYdXlDYTJTT2NIV1VCNWxKRmVl";
 
     public static void handleNotification(Component component, UUID establismentId, Machine machine) {
         var repo = new MetricRepository();
@@ -55,17 +53,23 @@ public class NotificationHandler {
         notify(json);
     }
 
-    @SneakyThrows
     public static void notify(JSONObject content) {
+        var decoded = Base64.getDecoder().decode(urlEncoded);
         HttpRequest request = HttpRequest.newBuilder(
-                        URI.create(URL))
+                        URI.create(new String(decoded)))
                 .header("accept", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString()))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            Logger.logError("Erro Slack", e);
+        } catch (InterruptedException e) {
+            Logger.logError("Erro Slack", e);
+        }
 
-        System.out.println(String.format("Status: %s", response.statusCode()));
-        System.out.println(String.format("Response: %s", response.body()));
+        Logger.logInfo(String.format("Requisição Slack - Status: %s, Response: %s", response.statusCode(), response.body()));
     }
 }

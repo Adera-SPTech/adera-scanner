@@ -58,7 +58,7 @@ public class ComponentRepository implements IUnitOfWork<ComponentEntity>{
             try {
                 database.insertOne(component);
             } catch (SQLException e) {
-                SQLExtension.handleException(e);
+                SQLExtension.handleException(e, null);
             }
         }
     }

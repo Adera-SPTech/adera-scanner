@@ -27,7 +27,7 @@ public class UserDatabase {
             statement.execute();
 
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return;
         }
     }
@@ -53,7 +53,7 @@ public class UserDatabase {
             }
             return null;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return null;
         }
     }
@@ -80,7 +80,7 @@ public class UserDatabase {
             }
             return null;
         } catch (SQLException e) {
-            SQLExtension.handleException(e);
+            SQLExtension.handleException(e, conn);
             return null;
         }
     }

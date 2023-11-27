@@ -56,12 +56,10 @@ public class MetricRepository implements IUnitOfWork<MetricEntity>{
     private void commitInserted() {
         ArrayList<MetricEntity> metricsToBeInserted = this.context.get("INSERT");
         for(MetricEntity metric : metricsToBeInserted) {
-            try {
-                metric.setId(UUID.randomUUID());
-                MetricDatabase.insertOne(metric);
-            } catch (SQLException e) {
-                SQLExtension.handleException(e);
-            }
+
+            metric.setId(UUID.randomUUID());
+            MetricDatabase.insertOne(metric);
+
         }
     }
 
