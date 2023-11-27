@@ -1,5 +1,6 @@
 package com.adera.repositories;
 
+import com.adera.Logger;
 import com.adera.database.ComponentDatabase;
 import com.adera.entities.ComponentEntity;
 import com.adera.extensions.SQLExtension;

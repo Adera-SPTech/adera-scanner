@@ -17,4 +17,16 @@ public class AlertEntity {
     private String description;
     private UUID metricId;
     private Boolean read;
+
+    @Override
+    public String toString() {
+        return "AlertEntity{" +
+                "id=" + id +
+                ", date=" + date +
+                ", level='" + level + '\'' +
+                ", description='" + description + '\'' +
+                ", metricId=" + metricId +
+                ", read=" + read +
+                '}';
+    }
 }

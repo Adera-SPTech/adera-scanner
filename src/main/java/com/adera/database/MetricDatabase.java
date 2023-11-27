@@ -66,33 +66,32 @@ public class MetricDatabase {
 
     }
 
-        @SneakyThrows
-        public static List<MetricEntity> getRecentMetricsByComponentId(UUID id){
-            try {
-                String query = "SELECT * FROM recent_metrics where MaquinaComponenteId = ? ORDER BY data DESC";
-                PreparedStatement statement = connSqlServer.prepareStatement(query);
+    public static List<MetricEntity> getRecentMetricsByComponentId(UUID id){
+        try {
+            String query = "SELECT * FROM recent_metrics where MaquinaComponenteId = ? ORDER BY data DESC";
+            PreparedStatement statement = connSqlServer.prepareStatement(query);
 
-                statement.setString(1, id.toString());
-                statement.execute();
+            statement.setString(1, id.toString());
+            statement.execute();
 
-                ResultSet result = statement.getResultSet();
+            ResultSet result = statement.getResultSet();
 
-                ArrayList<MetricEntity> recentMetrics = new ArrayList<MetricEntity>();
-                while (result.next()) {
-                    MetricEntity metric = new MetricEntity(
-                            UUID.fromString(result.getString(1)),
-                            result.getInt(2),
-                            result.getTimestamp(3).toLocalDateTime(),
-                            result.getBoolean(4),
-                            UUID.fromString(result.getString(5))
-                    );
-                    recentMetrics.add(metric);
-                }
-                return recentMetrics;
-            } catch (SQLException e) {
-                SQLExtension.handleException(e);
-                return new ArrayList<>();
+            ArrayList<MetricEntity> recentMetrics = new ArrayList<MetricEntity>();
+            while (result.next()) {
+                MetricEntity metric = new MetricEntity(
+                        UUID.fromString(result.getString(1)),
+                        result.getInt(2),
+                        result.getTimestamp(3).toLocalDateTime(),
+                        result.getBoolean(4),
+                        UUID.fromString(result.getString(5))
+                );
+                recentMetrics.add(metric);
             }
+            return recentMetrics;
+        } catch (SQLException e) {
+            SQLExtension.handleException(e);
+            return new ArrayList<>();
         }
+    }
 
 }

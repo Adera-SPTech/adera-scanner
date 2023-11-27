@@ -10,6 +10,7 @@ import com.adera.enums.ComponentTypeEnum;
 import com.adera.enums.MetricUnitEnum;
 import com.adera.repositories.AlertRepository;
 import com.github.britooo.looca.api.core.Looca;
+import com.github.britooo.looca.api.group.processador.Processador;
 import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class CpuComponent extends Component {
                 level = "Crítico";
                 description = String.format("A CPU da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
-            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
                     zone.toLocalDateTime(),
@@ -66,11 +67,12 @@ public class CpuComponent extends Component {
     @Override
     public MetricEntity getMetric() {
         var l = new Looca();
-        var uso = l.getProcessador().getUso();
-        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+        var uso = Integer.parseInt(String.format("%.0f", new Processador().getUso()));
+        System.out.println(uso);
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         return new MetricEntity(
                 UUID.randomUUID(),
-                uso.intValue(),
+                uso,
                 zone.toLocalDateTime(),
                 false,
                 getId()

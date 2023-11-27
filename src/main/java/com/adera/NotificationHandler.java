@@ -21,16 +21,14 @@ import java.util.UUID;
 
 public class NotificationHandler {
     private static HttpClient client = HttpClient.newHttpClient();
-    private static final String URL = "https://hooks.slack.com/services/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";
+    private static final String URL = "https://hooks.slack.com/services/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";
 
-    @SneakyThrows
     public static void handleNotification(Component component, UUID establismentId, Machine machine) {
         var repo = new MetricRepository();
         List<MetricEntity> recentMetrics = MetricDatabase.getRecentMetricsByComponentId(component.getId());
 
         var alert = component.getAlert(recentMetrics, establismentId, machine);
 
-        assert alert != null;
         if(alert != null) {
             if (alert.getLevel() != null) {
                 String alertMessage = String

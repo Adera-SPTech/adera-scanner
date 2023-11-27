@@ -36,7 +36,7 @@ public class MemoryComponent extends Component{
         var uso = l.getMemoria().getEmUso();
 
         int porcentagemUso = (int) (((double) uso / total) * 100);
-        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         return new MetricEntity(
                 UUID.randomUUID(),
                 porcentagemUso,
@@ -58,7 +58,7 @@ public class MemoryComponent extends Component{
                 level = "Crítico";
                 description = String.format("A Ram da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
-            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
                     zone.toLocalDateTime(),

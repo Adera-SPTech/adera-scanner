@@ -29,7 +29,7 @@ public class LatencyComponent extends Component{
 
     @Override
     public MetricEntity getMetric() {
-        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         var metric = new MetricEntity(
                 UUID.randomUUID(),
                 -1,
@@ -67,7 +67,7 @@ public class LatencyComponent extends Component{
                 level = "Crítico";
                 description = String.format("A Latência da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
-            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
                     zone.toLocalDateTime(),

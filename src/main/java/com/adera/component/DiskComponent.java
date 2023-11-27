@@ -40,7 +40,7 @@ public class DiskComponent extends Component{
         long inUse = total - available;
         Double percentageUsing = ((double) inUse /total)*100;
 
-        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("BET"));
+        ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         return new MetricEntity(
                 UUID.randomUUID(),
                 (int) Math.round(percentageUsing),
@@ -62,9 +62,10 @@ public class DiskComponent extends Component{
                 level = "Crítico";
                 description = String.format("O Disco da Maquina %s ultrapassou o limite Critico", machine.getMachineName());
             }
+            ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
             var alert = new AlertEntity(
                     UUID.randomUUID(),
-                    LocalDateTime.now(),
+                    zone.toLocalDateTime(),
                     level,
                     description,
                     recentMetrics.get(0).id,
