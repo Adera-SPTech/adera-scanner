@@ -68,7 +68,6 @@ public class CpuComponent extends Component {
     public MetricEntity getMetric() {
         var l = new Looca();
         var uso = Integer.parseInt(String.format("%.0f", new Processador().getUso()));
-        System.out.println(uso);
         ZonedDateTime zone = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         return new MetricEntity(
                 UUID.randomUUID(),
